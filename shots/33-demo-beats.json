@@ -1,0 +1,12 @@
+{
+  "start": 0,
+  "ui_in": 1.5,
+  "bedroom_open": 1.621,
+  "bedroom_close": 4.35,
+  "chip_northcote": 4.601,
+  "chip_3bed": 5.801,
+  "book_open": 7.601,
+  "slot_tick": 8.601,
+  "cta": 10,
+  "end": 11.5
+}
