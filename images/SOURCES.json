@@ -1,0 +1,69 @@
+{
+  "door.webp": {
+    "source": "CrownCraft hook pipeline still (door-still-mirrored.png from reel-property/hook.mp4 assets)",
+    "note": "Used as door face for match-cut with Brez hook.mp4; hinged left, charcoal Victorian terrace. Not Unsplash.",
+    "people": false,
+    "match_cut": true
+  },
+  "hallway.webp": {
+    "unsplash_id": "photo-1600210492493-0946911123ea",
+    "url": "https://unsplash.com/photos/photo-1600210492493-0946911123ea",
+    "download": "https://images.unsplash.com/photo-1600210492493-0946911123ea",
+    "license": "Unsplash License - free commercial use, attribution not required",
+    "note": "Warm-darkened and colour-graded interior used behind opening door (not a true hallway photo)",
+    "people": false
+  },
+  "listing-hawthorn.webp": {
+    "unsplash_id": "photo-1523217582562-09d0def993a6",
+    "url": "https://unsplash.com/photos/photo-1523217582562-09d0def993a6",
+    "download": "https://images.unsplash.com/photo-1523217582562-09d0def993a6",
+    "license": "Unsplash License",
+    "note": "Modern white house exterior - Hawthorn listing day photo",
+    "people": false
+  },
+  "listing-kew.webp": {
+    "unsplash_id": "photo-1564013799919-ab600027ffc6",
+    "url": "https://unsplash.com/photos/photo-1564013799919-ab600027ffc6",
+    "download": "https://images.unsplash.com/photo-1564013799919-ab600027ffc6",
+    "license": "Unsplash License",
+    "note": "White weatherboard with pool - Kew listing day photo",
+    "people": false
+  },
+  "listing-camberwell.webp": {
+    "unsplash_id": "photo-1512917774080-9991f1c4c750",
+    "url": "https://unsplash.com/photos/photo-1512917774080-9991f1c4c750",
+    "download": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750",
+    "license": "Unsplash License",
+    "note": "Modern white house with pool - Camberwell listing day photo",
+    "people": false
+  },
+  "room-living.webp": {
+    "unsplash_id": "photo-1618221195710-dd6b41faaea6",
+    "license": "Unsplash License",
+    "people": false
+  },
+  "room-kitchen.webp": {
+    "unsplash_id": "photo-1484154218962-a197022b5858",
+    "license": "Unsplash License",
+    "people": false
+  },
+  "room-bedroom.webp": {
+    "unsplash_id": "photo-1616486338812-3dadae4b4ace",
+    "license": "Unsplash License",
+    "people": false
+  },
+  "room-bathroom.webp": {
+    "unsplash_id": "photo-1554995207-c18c203602cb",
+    "license": "Unsplash License",
+    "people": false
+  },
+  "room-open.webp": {
+    "unsplash_id": "photo-1600607687939-ce8a6c25118c",
+    "license": "Unsplash License",
+    "people": false
+  },
+  "day_dusk_pairs": {
+    "true_pairs_available": false,
+    "approach": "Same listing day photo with CSS dusk grade (brightness/saturation/warm overlay). Honest same-scene treatment; no AI images; no mismatched dusk of a different house presented as the same property."
+  }
+}
