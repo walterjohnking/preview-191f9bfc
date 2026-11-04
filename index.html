@@ -134,9 +134,8 @@ footer .name{font-family:Cormorant,serif;font-size:18px;color:var(--charcoal);ma
 /* Plan match mode — clean phone frame, no chrome */
 .plan-match{position:fixed;inset:0;z-index:300;background:#111;display:none;align-items:center;justify-content:center}
 .plan-match.on{display:flex}
-.plan-phone{width:min(430px,100vw);height:min(932px,100dvh);background:var(--plan-white);position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 22px 28px;gap:18px}
-.plan-phone svg{width:100%;max-width:360px;height:auto;display:block;flex:0 0 auto;transition:transform .45s ease}
-.plan-phone.has-shot svg{max-width:320px;transform:translateY(-6px)}
+.plan-phone{width:min(430px,100vw);height:min(932px,100dvh);background:var(--plan-white);position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 22px 36px}
+.plan-phone svg{width:100%;max-width:360px;height:auto;display:block;flex:0 0 auto}
 .plan-phone .room{fill:transparent;stroke:#1F2326;stroke-width:1.8;opacity:0;transition:fill .45s ease, opacity .5s ease, stroke .35s}
 .plan-phone.held .room{opacity:1}
 .plan-phone .room.drawn{opacity:1;fill:rgba(236,231,223,.55)}
@@ -145,8 +144,8 @@ footer .name{font-family:Cormorant,serif;font-size:18px;color:var(--charcoal);ma
 .plan-phone.held text,.plan-phone .room.drawn + text,.plan-phone text.show{opacity:1}
 .plan-phone .outer{fill:none;stroke:#1F2326;stroke-width:2.2;opacity:0}
 .plan-phone.held .outer{opacity:1}
-.plan-match-shot{position:relative;width:100%;max-width:360px;height:0;border-radius:12px;overflow:hidden;background:transparent;opacity:0;flex:0 0 auto;transition:opacity .45s ease, height .45s ease;pointer-events:none}
-.plan-match-shot.show{opacity:1;height:168px}
+.plan-match-shot{position:absolute;left:18px;right:18px;bottom:22px;height:168px;border-radius:14px;overflow:hidden;background:#1F2326;opacity:0;transform:translateY(24px);box-shadow:0 18px 40px rgba(31,35,38,.28),0 4px 12px rgba(31,35,38,.12);transition:opacity .45s ease, transform .5s cubic-bezier(.22,.8,.28,1);pointer-events:none;z-index:3}
+.plan-match-shot.show{opacity:1;transform:translateY(0)}
 .plan-match-shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s}
 .plan-match-shot img.show{opacity:1}
 .plan-match-shot .cap{position:absolute;left:10px;bottom:10px;z-index:2;background:rgba(31,35,38,.65);color:#fff;font-size:11px;padding:5px 9px;border-radius:999px}
@@ -468,7 +467,6 @@ body.start-plan{overflow:hidden}
   function resetPlanMatch(){
     planPhone.classList.remove('held');
     matchShot.classList.remove('show');
-    planPhone.classList.remove('has-shot');
     planPhone.querySelectorAll('.room').forEach(r=>{
       r.classList.remove('drawn','active');
     });
@@ -483,7 +481,6 @@ body.start-plan{overflow:hidden}
     await wait(1100);
 
     matchShot.classList.add('show');
-    planPhone.classList.add('has-shot');
     for (const id of ROOM_ORDER){
       const room = planPhone.querySelector(`.room[data-room="${id}"]`);
       const label = planPhone.querySelector(`text[data-for="${id}"]`);
