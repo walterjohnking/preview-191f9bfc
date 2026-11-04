@@ -15,6 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script>(function(){var q=new URLSearchParams(location.search),c=document.documentElement.classList;if(q.get('start')==='plan')c.add('start-plan');if(q.has('demo'))c.add('demo');})();</script>
 <title>Harlow & Vale</title>
 <style>
 :root{
@@ -151,6 +152,11 @@ footer .name{font-family:Cormorant,serif;font-size:18px;color:var(--charcoal);ma
 .plan-match-shot .cap{position:absolute;left:10px;bottom:10px;z-index:2;background:rgba(31,35,38,.65);color:#fff;font-size:11px;padding:5px 9px;border-radius:999px}
 
 body.start-plan .wrap{visibility:hidden}
+html.start-plan .wrap{visibility:hidden}
+html.start-plan,html.start-plan body{overflow:hidden;background:#111}
+html.start-plan .plan-match{display:flex}
+html.start-plan .plan-phone .room,html.start-plan .plan-phone text,html.start-plan .plan-phone .outer{opacity:1 !important;transition:fill .45s ease, stroke .35s}
+html.demo .search{padding-top:156px}
 body.start-plan{overflow:hidden}
 
 @media (prefers-reduced-motion: reduce){
@@ -459,6 +465,7 @@ body.start-plan{overflow:hidden}
     planMatch.setAttribute('aria-hidden','false');
   }
   function hidePlanMatch(){
+    document.documentElement.classList.remove('start-plan');
     planMatch.classList.remove('on');
     planMatch.setAttribute('aria-hidden','true');
     document.body.classList.remove('start-plan');
@@ -517,6 +524,8 @@ body.start-plan{overflow:hidden}
     const sun = document.getElementById('sunToggle');
     await tapEl(sun); sun.click();
     await wait(1500);
+    document.getElementById('floor').scrollIntoView({behavior:'smooth', block:'center'});
+    await wait(600);
     for (const id of ['kitchen','bedroom','bathroom']){
       const el = document.querySelector(`#listingPlan .room[data-room="${id}"]`);
       await tapEl(el); el.dispatchEvent(new Event('click', {bubbles:true}));
