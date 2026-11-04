@@ -206,17 +206,17 @@ body.start-plan{overflow:hidden}
 <div class="plan-match" id="planMatch" aria-hidden="true">
   <div class="plan-phone" id="planPhone">
     <svg id="matchSvg" viewBox="0 0 200 220" aria-label="Floor plan">
-      <rect class="outer" x="8" y="8" width="184" height="204" rx="3"/>
-      <rect class="room" data-room="living" x="10" y="10" width="110" height="90" rx="2"/>
-      <rect class="room" data-room="kitchen" x="120" y="10" width="70" height="90" rx="2"/>
-      <rect class="room" data-room="bedroom" x="10" y="110" width="85" height="95" rx="2"/>
-      <rect class="room" data-room="bathroom" x="105" y="110" width="85" height="45" rx="2"/>
-      <rect class="room" data-room="hall" x="105" y="165" width="85" height="40" rx="2"/>
-      <text data-for="living" x="65" y="58" text-anchor="middle">Living</text>
-      <text data-for="kitchen" x="155" y="58" text-anchor="middle">Kitchen</text>
-      <text data-for="bedroom" x="52" y="160" text-anchor="middle">Bedroom</text>
-      <text data-for="bathroom" x="147" y="137" text-anchor="middle">Bath</text>
-      <text data-for="hall" x="147" y="188" text-anchor="middle">Hall</text>
+      <rect class="outer" x="29.1" y="8" width="141.8" height="204" rx="3"/>
+      <rect class="room" data-room="living" x="34" y="22" width="77" height="83.5" rx="2"/>
+      <rect class="room" data-room="kitchen" x="115.3" y="22" width="50.7" height="83.5" rx="2"/>
+      <rect class="room" data-room="bedroom" x="33.4" y="113.6" width="62.3" height="94.1" rx="2"/>
+      <polygon class="room" data-room="hall" points="103.8,113.6 159.3,113.6 159.3,144 131.8,144 131.8,207.7 103.8,207.7" style="fill:rgba(92,68,50,.42)"/>
+      <rect class="room" data-room="bathroom" x="138.5" y="152.7" width="28.1" height="55" rx="2"/>
+      <text data-for="living" x="72.5" y="66" text-anchor="middle">Living</text>
+      <text data-for="kitchen" x="140.6" y="66" text-anchor="middle">Kitchen</text>
+      <text data-for="bedroom" x="64.5" y="163" text-anchor="middle">Bedroom</text>
+      <text data-for="bathroom" x="152.5" y="183" text-anchor="middle">Bath</text>
+      <text data-for="hall" x="117.8" y="170" text-anchor="middle" transform="rotate(-90 117.8 170)">Hall</text>
     </svg>
     <div class="plan-match-shot" id="matchShot">
       <img data-room="living" src="images/room-living.webp" alt="">
@@ -249,16 +249,17 @@ body.start-plan{overflow:hidden}
       <div class="floor-grid">
         <div class="plan" id="listingPlan">
           <svg viewBox="0 0 200 220" aria-label="Floor plan">
-            <rect class="room active" data-room="living" x="10" y="10" width="110" height="90" rx="2"/>
-            <rect class="room" data-room="kitchen" x="120" y="10" width="70" height="90" rx="2"/>
-            <rect class="room" data-room="bedroom" x="10" y="110" width="85" height="95" rx="2"/>
-            <rect class="room" data-room="bathroom" x="105" y="110" width="85" height="45" rx="2"/>
-            <rect x="105" y="165" width="85" height="40" rx="2" fill="rgba(236,231,223,.5)" stroke="rgba(31,35,38,.15)" stroke-width="1.5"/>
-            <text x="65" y="58" text-anchor="middle">Living</text>
-            <text x="155" y="58" text-anchor="middle">Kitchen</text>
-            <text x="52" y="160" text-anchor="middle">Bedroom</text>
-            <text x="147" y="137" text-anchor="middle">Bath</text>
-            <text x="147" y="188" text-anchor="middle">Hall</text>
+            <rect x="29.1" y="8" width="141.8" height="204" rx="3" fill="none" stroke="rgba(31,35,38,.35)" stroke-width="2"/>
+            <rect class="room active" data-room="living" x="34" y="22" width="77" height="83.5" rx="2"/>
+            <rect class="room" data-room="kitchen" x="115.3" y="22" width="50.7" height="83.5" rx="2"/>
+            <rect class="room" data-room="bedroom" x="33.4" y="113.6" width="62.3" height="94.1" rx="2"/>
+            <polygon points="103.8,113.6 159.3,113.6 159.3,144 131.8,144 131.8,207.7 103.8,207.7" fill="rgba(92,68,50,.35)" stroke="rgba(31,35,38,.15)" stroke-width="1.5"/>
+            <rect class="room" data-room="bathroom" x="138.5" y="152.7" width="28.1" height="55" rx="2"/>
+            <text x="72.5" y="66" text-anchor="middle">Living</text>
+      <text x="140.6" y="66" text-anchor="middle">Kitchen</text>
+      <text x="64.5" y="163" text-anchor="middle">Bedroom</text>
+      <text x="152.5" y="183" text-anchor="middle">Bath</text>
+      <text x="117.8" y="170" text-anchor="middle" transform="rotate(-90 117.8 170)">Hall</text>
           </svg>
         </div>
         <div class="room-shot" id="roomShot">
