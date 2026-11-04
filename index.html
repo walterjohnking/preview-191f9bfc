@@ -207,8 +207,11 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
   font-family:"Playfair Display",serif;font-weight:600;
   font-size:68px;line-height:1.15;letter-spacing:-0.01em;
   max-width:1000px;
+  display:flex;flex-direction:column;align-items:center;gap:0;
 }
-#cta .line .dot{margin:0 .18em;opacity:.55}
+#cta .line .l1,#cta .line .l2{
+  display:block;white-space:nowrap;font-size:68px;line-height:1.15;
+}
 
 /* Tap ripple */
 .tap-ripple{
@@ -293,7 +296,7 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
     </div>
 
     <div id="cta" aria-hidden="true">
-      <div class="line">Websites from $999 <span class="dot">·</span> Comment HOME</div>
+      <div class="line"><span class="l1">Websites from $999</span><span class="l2">Comment HOME</span></div>
     </div>
 
     <div class="tap-ripple" id="ripple" aria-hidden="true"></div>
