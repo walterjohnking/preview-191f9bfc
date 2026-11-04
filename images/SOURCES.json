@@ -65,5 +65,11 @@
   "day_dusk_pairs": {
     "true_pairs_available": false,
     "approach": "Same listing day photo with CSS dusk grade (brightness/saturation/warm overlay). Honest same-scene treatment; no AI images; no mismatched dusk of a different house presented as the same property."
+  },
+  "hero-static.webp": {
+    "unsplash_id": "photo-1600607687939-ce8a6c25118c",
+    "license": "Unsplash License",
+    "note": "Calm open living interior for static hero (no people)",
+    "people": false
   }
 }

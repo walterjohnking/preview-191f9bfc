@@ -7,11 +7,11 @@
 <meta name="description" content="Harlow & Vale - boutique property agency for Melbourne's inner east.">
 <meta property="og:title" content="Harlow & Vale">
 <meta property="og:description" content="Find the one. Hawthorn, Kew and Camberwell.">
-<meta property="og:image" content="images/door.webp">
+<meta property="og:image" content="images/hero-static.webp">
 <link rel="icon" type="image/webp" href="images/favicon.webp">
-<link rel="preload" href="images/door.webp" as="image" type="image/webp">
-<link rel="preload" href="images/hallway.webp" as="image" type="image/webp">
+<link rel="preload" href="images/hero-static.webp" as="image" type="image/webp">
 <link rel="preload" href="images/listing-hawthorn.webp" as="image" type="image/webp">
+<link rel="preload" href="images/room-living.webp" as="image" type="image/webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -25,7 +25,7 @@
   --paper:#F5F1EA;
   --ink:#1F2326;
   --muted:#6B7168;
-  --safe: max(16px, env(safe-area-inset-bottom));
+  --plan-white:#FAF8F4;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -36,43 +36,31 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 a{color:inherit;text-decoration:none}
 h1,h2,h3,.serif{font-family:Cormorant,Georgia,serif;font-weight:600;letter-spacing:-0.01em}
 .wrap{width:min(430px,100%);margin:0 auto;position:relative}
-/* Tap ripple */
-.tap-ripple{position:fixed;width:44px;height:44px;border-radius:50%;pointer-events:none;z-index:9999;border:2px solid var(--brass);transform:translate(-50%,-50%) scale(.4);opacity:0;mix-blend-mode:normal}
+.tap-ripple{position:fixed;width:44px;height:44px;border-radius:50%;pointer-events:none;z-index:9999;border:2px solid var(--brass);transform:translate(-50%,-50%) scale(.4);opacity:0}
 .tap-ripple.show{animation:ripple .55s ease-out forwards}
 @keyframes ripple{0%{opacity:.9;transform:translate(-50%,-50%) scale(.35)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.35)}}
 
-/* HEADER */
 .topbar{position:absolute;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:18px 20px;color:#F5F1EA;pointer-events:none}
 .topbar .brand{font-family:Cormorant,serif;font-weight:600;font-size:22px;letter-spacing:.02em}
-.topbar .brand span{opacity:.72;font-weight:600}
+.topbar .brand span{opacity:.72}
 
-/* HERO */
-.hero{position:relative;height:100dvh;min-height:680px;max-height:932px;background:#0e1012;overflow:hidden;isolation:isolate}
-.hero-stage{position:absolute;inset:0;perspective:1600px;perspective-origin:50% 48%;display:grid;place-items:center}
-.doorway{position:relative;width:48%;max-width:230px;aspect-ratio:9/19;transform-style:preserve-3d}
-.hallway{position:absolute;inset:2% 6% 4% 6%;border-radius:2px;overflow:hidden;background:#2a1a0c}
-.hallway img{width:100%;height:100%;object-fit:cover;filter:brightness(.72) saturate(1.2)}
-.hallway::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 55% 40%,rgba(255,180,80,.18),transparent 55%),linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,.45))}
-.door-pivot{position:absolute;inset:0;transform-origin:left center;transform-style:preserve-3d;will-change:transform;transform:rotateY(0deg);transition:transform 2.9s cubic-bezier(.22,.61,.36,1)}
-.hero.open .door-pivot{transform:rotateY(-62deg)}
-.door-face{position:absolute;inset:0;transform-style:preserve-3d;backface-visibility:hidden;border-radius:1px;box-shadow:8px 0 28px rgba(0,0,0,.45);overflow:hidden;background:#1a1c1e}
-.door-face img{width:100%;height:100%;object-fit:cover;object-position:center}
-.door-edge{position:absolute;top:0;bottom:0;left:100%;width:10px;background:linear-gradient(90deg,#0c0d0e,#2a2e32);transform-origin:left center;transform:rotateY(90deg);box-shadow:inset -2px 0 4px rgba(0,0,0,.5)}
-.facade-frame{position:absolute;inset:-6% -10% -4% -10%;border:1.5px solid rgba(176,141,87,.22);pointer-events:none;border-radius:2px}
-.hero-copy{position:absolute;left:0;right:0;bottom:12%;z-index:12;text-align:center;padding:0 24px;color:#F5F1EA}
-.hero-copy h1{font-size:clamp(40px,11vw,52px);line-height:1.02;font-weight:600;text-shadow:0 2px 24px rgba(0,0,0,.55)}
+/* Static hero */
+.hero{position:relative;height:100dvh;min-height:680px;max-height:932px;background:#1a1c1e;overflow:hidden}
+.hero-photo{position:absolute;inset:0}
+.hero-photo img{width:100%;height:100%;object-fit:cover;object-position:center 40%;filter:brightness(.78) saturate(.95)}
+.hero-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,18,20,.35) 0%,rgba(15,18,20,.15) 40%,rgba(15,18,20,.72) 100%)}
+.hero-copy{position:absolute;left:0;right:0;bottom:14%;z-index:12;text-align:center;padding:0 24px;color:#F5F1EA}
+.hero-copy h1{font-size:clamp(40px,11vw,52px);line-height:1.02;font-weight:600;text-shadow:0 2px 24px rgba(0,0,0,.45)}
 .hero-copy h1 .w{display:inline-block;white-space:nowrap}
 .hero-copy .sub{margin-top:10px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:rgba(236,231,223,.78);font-weight:500}
 .scroll-cue{margin:22px auto 0;width:18px;height:28px;border:1.5px solid rgba(236,231,223,.45);border-radius:10px;position:relative}
 .scroll-cue i{position:absolute;left:50%;top:6px;width:3px;height:6px;margin-left:-1.5px;border-radius:2px;background:var(--brass);animation:nudge 1.6s ease-in-out infinite}
 @keyframes nudge{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(8px)}}
 
-/* SECTIONS */
 section{padding:48px 20px 24px}
 .sec-label{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--eucalyptus);font-weight:600;margin-bottom:8px}
 .sec-title{font-size:32px;line-height:1.1;margin-bottom:18px}
 
-/* SEARCH */
 .search{background:var(--paper);padding-top:36px}
 .search-bar{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid rgba(31,35,38,.1);border-radius:14px;padding:14px 16px;box-shadow:0 8px 28px rgba(31,35,38,.06)}
 .search-bar svg{flex:0 0 auto;opacity:.55}
@@ -83,22 +71,18 @@ section{padding:48px 20px 24px}
 .chip.active{background:var(--charcoal);color:var(--limestone);border-color:var(--charcoal)}
 .chip:active{transform:scale(.97)}
 
-/* CARDS */
 .grid{display:grid;gap:16px;margin-top:22px}
 .card{position:relative;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(31,35,38,.07);cursor:pointer;transform-origin:center top;will-change:transform,opacity}
 .card-photo{position:relative;aspect-ratio:4/3;overflow:hidden;background:#ddd}
 .card-photo img{width:100%;height:100%;object-fit:cover;transition:filter .9s ease,transform .6s ease}
 .card-photo.dusk img{filter:brightness(.52) saturate(1.15) hue-rotate(-12deg) contrast(1.05)}
-.card-photo.dusk::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,30,60,.35),rgba(180,90,30,.22));pointer-events:none;opacity:1;transition:opacity .9s}
-.card-photo:not(.dusk)::after{opacity:0}
+.card-photo.dusk::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,30,60,.35),rgba(180,90,30,.22));pointer-events:none}
 .card-body{padding:16px 16px 18px}
 .card-sub{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500}
 .card-title{font-family:Cormorant,serif;font-size:24px;margin:4px 0 6px;line-height:1.15}
 .card-price{font-size:14px;font-weight:600;color:var(--charcoal)}
 .card-meta{display:flex;gap:12px;margin-top:10px;font-size:12px;color:var(--muted)}
-.card-meta span{display:inline-flex;align-items:center;gap:4px}
 
-/* LISTING DETAIL (expanded) */
 .listing{position:fixed;inset:0;z-index:100;background:var(--limestone);overflow:auto;overscroll-behavior:contain;transform:translateY(110%);opacity:0;pointer-events:none;transition:transform .55s cubic-bezier(.22,.61,.36,1),opacity .4s}
 .listing.open{transform:translateY(0);opacity:1;pointer-events:auto}
 .listing-hero{position:relative;aspect-ratio:4/5;max-height:58dvh;background:#111;overflow:hidden}
@@ -114,7 +98,6 @@ section{padding:48px 20px 24px}
 .listing-body .price{font-size:16px;font-weight:600;color:var(--charcoal)}
 .listing-body .blurb{margin-top:14px;color:#3a3f3c;font-size:14.5px}
 
-/* Floor plan */
 .floor{margin-top:28px}
 .floor-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;align-items:stretch}
 .plan{background:#fff;border-radius:14px;padding:14px;border:1px solid rgba(31,35,38,.08)}
@@ -128,14 +111,11 @@ section{padding:48px 20px 24px}
 .room-shot img.show{opacity:1}
 .room-shot .cap{position:absolute;left:10px;bottom:10px;z-index:2;background:rgba(31,35,38,.65);color:#fff;font-size:11px;padding:5px 9px;border-radius:999px;backdrop-filter:blur(6px)}
 
-/* Booking */
 .book{margin-top:30px}
 .slots{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .slot{padding:12px 14px;border-radius:12px;border:1px solid rgba(31,35,38,.14);background:#fff;font-size:13px;font-weight:500;min-width:96px;text-align:center;transition:all .2s}
 .slot.active{background:var(--charcoal);color:var(--limestone);border-color:var(--charcoal)}
-.slot:disabled{opacity:.35;cursor:not-allowed}
 
-/* Confirm */
 .confirm{position:fixed;inset:0;z-index:200;background:rgba(31,35,38,.45);display:grid;place-items:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .35s}
 .confirm.open{opacity:1;pointer-events:auto}
 .confirm-card{width:min(360px,100%);background:var(--paper);border-radius:20px;padding:28px 24px 24px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.28);transform:translateY(18px) scale(.96);transition:transform .4s cubic-bezier(.22,.61,.36,1)}
@@ -148,34 +128,45 @@ section{padding:48px 20px 24px}
 .confirm p{color:var(--muted);font-size:14px}
 .confirm .when{margin-top:14px;padding:12px;border-radius:12px;background:#fff;border:1px solid rgba(31,35,38,.08);font-weight:500;color:var(--charcoal)}
 
-/* Footer */
 footer{padding:28px 20px 40px;text-align:center;color:var(--muted);font-size:12px;border-top:1px solid rgba(31,35,38,.08)}
 footer .name{font-family:Cormorant,serif;font-size:18px;color:var(--charcoal);margin-bottom:4px}
 
+/* Plan match mode — clean phone frame, no chrome */
+.plan-match{position:fixed;inset:0;z-index:300;background:#111;display:none;align-items:center;justify-content:center}
+.plan-match.on{display:flex}
+.plan-phone{width:min(430px,100vw);height:min(932px,100dvh);background:var(--plan-white);position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 22px 28px;gap:18px}
+.plan-phone svg{width:100%;max-width:360px;height:auto;display:block;flex:0 0 auto;transition:transform .45s ease}
+.plan-phone.has-shot svg{max-width:320px;transform:translateY(-6px)}
+.plan-phone .room{fill:transparent;stroke:#1F2326;stroke-width:1.8;opacity:0;transition:fill .45s ease, opacity .5s ease, stroke .35s}
+.plan-phone.held .room{opacity:1}
+.plan-phone .room.drawn{opacity:1;fill:rgba(236,231,223,.55)}
+.plan-phone .room.active{fill:rgba(124,140,116,.5);stroke:#7C8C74;stroke-width:2.4}
+.plan-phone text{font-family:Inter,sans-serif;font-size:10px;fill:#6B7168;opacity:0;pointer-events:none;transition:opacity .4s}
+.plan-phone.held text,.plan-phone .room.drawn + text,.plan-phone text.show{opacity:1}
+.plan-phone .outer{fill:none;stroke:#1F2326;stroke-width:2.2;opacity:0}
+.plan-phone.held .outer{opacity:1}
+.plan-match-shot{position:relative;width:100%;max-width:360px;height:0;border-radius:12px;overflow:hidden;background:transparent;opacity:0;flex:0 0 auto;transition:opacity .45s ease, height .45s ease;pointer-events:none}
+.plan-match-shot.show{opacity:1;height:168px}
+.plan-match-shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s}
+.plan-match-shot img.show{opacity:1}
+.plan-match-shot .cap{position:absolute;left:10px;bottom:10px;z-index:2;background:rgba(31,35,38,.65);color:#fff;font-size:11px;padding:5px 9px;border-radius:999px}
+
+body.start-plan .wrap{visibility:hidden}
+body.start-plan{overflow:hidden}
+
 @media (prefers-reduced-motion: reduce){
-  .door-pivot,.listing,.card-photo img,.confirm-card{transition:none !important}
-  .scroll-cue i{animation:none}
-  body:not(.force-motion) .hero.open .door-pivot{transform:rotateY(-40deg)}
+  .listing,.confirm-card,.scroll-cue i{transition:none !important;animation:none !important}
 }
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="wrap" id="mainWrap">
   <header class="hero" id="hero" aria-label="Harlow and Vale">
     <div class="topbar">
       <div class="brand">Harlow <span>&amp;</span> Vale</div>
     </div>
-    <div class="hero-stage">
-      <div class="doorway" id="doorway">
-        <div class="hallway" aria-hidden="true"><img src="images/hallway.webp" alt="" decoding="async"></div>
-        <div class="door-pivot" id="doorPivot">
-          <div class="door-face">
-            <img src="images/door.webp" alt="Charcoal Victorian terrace front door" width="900" height="1600" decoding="async">
-            <div class="door-edge" aria-hidden="true"></div>
-          </div>
-        </div>
-        <div class="facade-frame" aria-hidden="true"></div>
-      </div>
+    <div class="hero-photo">
+      <img src="images/hero-static.webp" alt="Light-filled open living space" width="1200" height="1600" decoding="async">
     </div>
     <div class="hero-copy">
       <h1 id="headline"><span class="w">Find</span> <span class="w">the</span> <span class="w">one.</span></h1>
@@ -206,7 +197,32 @@ footer .name{font-family:Cormorant,serif;font-size:18px;color:var(--charcoal);ma
   </footer>
 </div>
 
-<!-- Expanded listing -->
+<!-- Plan match target (clean, no chrome) -->
+<div class="plan-match" id="planMatch" aria-hidden="true">
+  <div class="plan-phone" id="planPhone">
+    <svg id="matchSvg" viewBox="0 0 200 220" aria-label="Floor plan">
+      <rect class="outer" x="8" y="8" width="184" height="204" rx="3"/>
+      <rect class="room" data-room="living" x="10" y="10" width="110" height="90" rx="2"/>
+      <rect class="room" data-room="kitchen" x="120" y="10" width="70" height="90" rx="2"/>
+      <rect class="room" data-room="bedroom" x="10" y="110" width="85" height="95" rx="2"/>
+      <rect class="room" data-room="bathroom" x="105" y="110" width="85" height="45" rx="2"/>
+      <rect class="room" data-room="hall" x="105" y="165" width="85" height="40" rx="2"/>
+      <text data-for="living" x="65" y="58" text-anchor="middle">Living</text>
+      <text data-for="kitchen" x="155" y="58" text-anchor="middle">Kitchen</text>
+      <text data-for="bedroom" x="52" y="160" text-anchor="middle">Bedroom</text>
+      <text data-for="bathroom" x="147" y="137" text-anchor="middle">Bath</text>
+      <text data-for="hall" x="147" y="188" text-anchor="middle">Hall</text>
+    </svg>
+    <div class="plan-match-shot" id="matchShot">
+      <img data-room="living" src="images/room-living.webp" alt="">
+      <img data-room="kitchen" src="images/room-kitchen.webp" alt="">
+      <img data-room="bedroom" src="images/room-bedroom.webp" alt="">
+      <img data-room="bathroom" src="images/room-bathroom.webp" alt="">
+      <div class="cap" id="matchCap">Living</div>
+    </div>
+  </div>
+</div>
+
 <div class="listing" id="listing" aria-hidden="true">
   <div class="listing-hero" id="listingHero">
     <button class="close" id="closeListing" aria-label="Close">&times;</button>
@@ -226,7 +242,7 @@ footer .name{font-family:Cormorant,serif;font-size:18px;color:var(--charcoal);ma
       <div class="sec-label">Floor plan</div>
       <h3 class="serif" style="font-size:24px;margin-bottom:12px">Tour room by room</h3>
       <div class="floor-grid">
-        <div class="plan">
+        <div class="plan" id="listingPlan">
           <svg viewBox="0 0 200 220" aria-label="Floor plan">
             <rect class="room active" data-room="living" x="10" y="10" width="110" height="90" rx="2"/>
             <rect class="room" data-room="kitchen" x="120" y="10" width="70" height="90" rx="2"/>
@@ -278,37 +294,30 @@ footer .name{font-family:Cormorant,serif;font-size:18px;color:var(--charcoal);ma
 
 <script>
 (function(){
-  const DEMO = new URLSearchParams(location.search).has('demo');
+  const params = new URLSearchParams(location.search);
+  const DEMO = params.has('demo');
+  const START_PLAN = params.get('start') === 'plan';
   if (DEMO) document.body.classList.add('force-motion');
 
   const LISTINGS = [
     {
-      id: 'hawthorn',
-      suburb: 'Hawthorn',
-      street: 'Power Street',
+      id: 'hawthorn', suburb: 'Hawthorn', street: 'Power Street',
       title: 'Architectural home with north light',
-      price: '$2,450,000 – $2,650,000',
-      beds: 3, baths: 2, cars: 1,
+      price: '$2,450,000 – $2,650,000', beds: 3, baths: 2, cars: 1,
       img: 'images/listing-hawthorn.webp',
       blurb: 'Clean white volumes, a quiet street and a sunlit rear garden. Short walk to Glenferrie Road and the tram.'
     },
     {
-      id: 'kew',
-      suburb: 'Kew',
-      street: 'Walmer Street',
+      id: 'kew', suburb: 'Kew', street: 'Walmer Street',
       title: 'Family home with pool pavilion',
-      price: '$2,550,000 – $2,800,000',
-      beds: 4, baths: 3, cars: 2,
+      price: '$2,550,000 – $2,800,000', beds: 4, baths: 3, cars: 2,
       img: 'images/listing-kew.webp',
       blurb: 'Weatherboard character at the front, open living to a pool and timber pavilion at the rear. Close to Studley Park and Kew Junction.'
     },
     {
-      id: 'camberwell',
-      suburb: 'Camberwell',
-      street: 'Prospect Hill Road',
+      id: 'camberwell', suburb: 'Camberwell', street: 'Prospect Hill Road',
       title: 'Light-filled modern residence',
-      price: '$2,350,000 – $2,550,000',
-      beds: 4, baths: 2, cars: 2,
+      price: '$2,350,000 – $2,550,000', beds: 4, baths: 2, cars: 2,
       img: 'images/listing-camberwell.webp',
       blurb: 'Clean lines, a private courtyard and easy indoor-outdoor flow. Moments from Burke Road and Camberwell Junction.'
     }
@@ -317,7 +326,6 @@ footer .name{font-family:Cormorant,serif;font-size:18px;color:var(--charcoal);ma
   const grid = document.getElementById('grid');
   const chips = document.getElementById('chips');
   let filter = 'all';
-  let activeListing = null;
   let dusk = false;
 
   function cardHTML(L){
@@ -337,7 +345,6 @@ footer .name{font-family:Cormorant,serif;font-size:18px;color:var(--charcoal);ma
     const prev = new Map([...grid.querySelectorAll('.card')].map(el => [el.dataset.id, el.getBoundingClientRect()]));
     grid.innerHTML = items.map(cardHTML).join('');
     if (!animate) return;
-    // FLIP
     requestAnimationFrame(()=>{
       grid.querySelectorAll('.card').forEach(el=>{
         const last = el.getBoundingClientRect();
@@ -347,8 +354,7 @@ footer .name{font-family:Cormorant,serif;font-size:18px;color:var(--charcoal);ma
           requestAnimationFrame(()=>{ el.style.transition='transform .45s cubic-bezier(.22,.61,.36,1), opacity .4s'; el.style.opacity='1'; el.style.transform='none'; });
           return;
         }
-        const dx = first.left - last.left;
-        const dy = first.top - last.top;
+        const dx = first.left - last.left, dy = first.top - last.top;
         el.style.transform = `translate(${dx}px,${dy}px)`;
         el.style.transition = 'none';
         requestAnimationFrame(()=>{
@@ -367,23 +373,12 @@ footer .name{font-family:Cormorant,serif;font-size:18px;color:var(--charcoal);ma
     render(true);
   });
 
-  // Hero door open on load
-  const hero = document.getElementById('hero');
-  function openDoor(){ hero.classList.add('open'); }
-  // Preload then open
-  const doorImg = new Image();
-  doorImg.src = 'images/door.webp';
-  doorImg.onload = ()=> setTimeout(openDoor, DEMO ? 180 : 420);
-  setTimeout(openDoor, 1200); // fallback
-
-  // Listing open / close
   const listingEl = document.getElementById('listing');
   const listingHero = document.getElementById('listingHero');
   const listingImg = document.getElementById('listingImg');
 
   function openListing(id){
     const L = LISTINGS.find(x=>x.id===id); if(!L) return;
-    activeListing = L;
     dusk = false;
     listingHero.classList.remove('dusk');
     document.getElementById('sunLabel').textContent = 'Day';
@@ -394,8 +389,7 @@ footer .name{font-family:Cormorant,serif;font-size:18px;color:var(--charcoal);ma
     document.getElementById('lTitle').textContent = L.title;
     document.getElementById('lPrice').textContent = L.price;
     document.getElementById('lBlurb').textContent = L.blurb;
-    // reset rooms
-    document.querySelectorAll('.plan .room').forEach(r=>r.classList.toggle('active', r.dataset.room==='living'));
+    document.querySelectorAll('#listingPlan .room').forEach(r=>r.classList.toggle('active', r.dataset.room==='living'));
     document.querySelectorAll('#roomShot img').forEach(img=>img.classList.toggle('show', img.dataset.room==='living'));
     document.getElementById('roomCap').textContent = 'Living';
     document.querySelectorAll('.slot').forEach(s=>s.classList.remove('active'));
@@ -413,7 +407,6 @@ footer .name{font-family:Cormorant,serif;font-size:18px;color:var(--charcoal);ma
   });
   document.getElementById('closeListing').addEventListener('click', closeListing);
 
-  // Day / dusk
   document.getElementById('sunToggle').addEventListener('click', ()=>{
     dusk = !dusk;
     listingHero.classList.toggle('dusk', dusk);
@@ -421,16 +414,14 @@ footer .name{font-family:Cormorant,serif;font-size:18px;color:var(--charcoal);ma
     document.getElementById('sunToggle').setAttribute('aria-pressed', dusk?'true':'false');
   });
 
-  // Floor plan rooms
-  document.querySelector('.plan').addEventListener('click', e=>{
+  document.getElementById('listingPlan').addEventListener('click', e=>{
     const room = e.target.closest('.room'); if(!room) return;
-    document.querySelectorAll('.plan .room').forEach(r=>r.classList.toggle('active', r===room));
+    document.querySelectorAll('#listingPlan .room').forEach(r=>r.classList.toggle('active', r===room));
     document.querySelectorAll('#roomShot img').forEach(img=>img.classList.toggle('show', img.dataset.room===room.dataset.room));
     const names = {living:'Living', kitchen:'Kitchen', bedroom:'Bedroom', bathroom:'Bath'};
     document.getElementById('roomCap').textContent = names[room.dataset.room] || room.dataset.room;
   });
 
-  // Booking
   const confirm = document.getElementById('confirm');
   document.getElementById('slots').addEventListener('click', e=>{
     const slot = e.target.closest('.slot'); if(!slot) return;
@@ -440,20 +431,14 @@ footer .name{font-family:Cormorant,serif;font-size:18px;color:var(--charcoal);ma
   });
   confirm.addEventListener('click', e=>{ if(e.target===confirm) confirm.classList.remove('open'); });
 
-  // Tap indicator
   const ripple = document.getElementById('ripple');
   function showTap(x,y){
-    ripple.style.left = x+'px';
-    ripple.style.top = y+'px';
-    ripple.classList.remove('show');
-    void ripple.offsetWidth;
-    ripple.classList.add('show');
+    ripple.style.left = x+'px'; ripple.style.top = y+'px';
+    ripple.classList.remove('show'); void ripple.offsetWidth; ripple.classList.add('show');
   }
   function tapEl(el){
     const r = el.getBoundingClientRect();
-    const x = r.left + r.width/2;
-    const y = r.top + r.height/2;
-    showTap(x,y);
+    showTap(r.left + r.width/2, r.top + r.height/2);
     return new Promise(res=>setTimeout(res, 280));
   }
   function wait(ms){ return new Promise(r=>setTimeout(r, ms)); }
@@ -462,36 +447,84 @@ footer .name{font-family:Cormorant,serif;font-size:18px;color:var(--charcoal);ma
     return wait(ms||700);
   }
 
+  /* ---- Plan match mode ---- */
+  const planMatch = document.getElementById('planMatch');
+  const planPhone = document.getElementById('planPhone');
+  const matchShot = document.getElementById('matchShot');
+  const ROOM_ORDER = ['living','kitchen','bedroom','bathroom','hall'];
+  const ROOM_NAMES = {living:'Living', kitchen:'Kitchen', bedroom:'Bedroom', bathroom:'Bath', hall:'Hall'};
+
+  function showPlanMatch(){
+    document.body.classList.add('start-plan');
+    planMatch.classList.add('on');
+    planMatch.setAttribute('aria-hidden','false');
+  }
+  function hidePlanMatch(){
+    planMatch.classList.remove('on');
+    planMatch.setAttribute('aria-hidden','true');
+    document.body.classList.remove('start-plan');
+  }
+
+  function resetPlanMatch(){
+    planPhone.classList.remove('held');
+    matchShot.classList.remove('show');
+    planPhone.classList.remove('has-shot');
+    planPhone.querySelectorAll('.room').forEach(r=>{
+      r.classList.remove('drawn','active');
+    });
+    planPhone.querySelectorAll('text').forEach(t=>t.classList.remove('show'));
+    matchShot.querySelectorAll('img').forEach(i=>i.classList.remove('show'));
+  }
+
+  async function animatePlanRooms(){
+    // Hold clean still ~1s as match target
+    planPhone.classList.add('held');
+    document.documentElement.setAttribute('data-plan-held','1');
+    await wait(1100);
+
+    matchShot.classList.add('show');
+    planPhone.classList.add('has-shot');
+    for (const id of ROOM_ORDER){
+      const room = planPhone.querySelector(`.room[data-room="${id}"]`);
+      const label = planPhone.querySelector(`text[data-for="${id}"]`);
+      planPhone.querySelectorAll('.room').forEach(r=>r.classList.remove('active'));
+      if (room){ room.classList.add('drawn','active'); }
+      if (label) label.classList.add('show');
+      matchShot.querySelectorAll('img').forEach(img=>img.classList.toggle('show', img.dataset.room===id));
+      document.getElementById('matchCap').textContent = ROOM_NAMES[id] || id;
+      // hall has no photo — keep last photo
+      if (id === 'hall'){
+        matchShot.querySelectorAll('img').forEach(img=>img.classList.toggle('show', img.dataset.room==='living'));
+        document.getElementById('matchCap').textContent = 'Hall';
+      }
+      document.documentElement.setAttribute('data-plan-room', id);
+      await wait(900);
+    }
+    document.documentElement.setAttribute('data-plan-anim-done','1');
+  }
+
   window.__harlowDemo = {running:false, durationMs:0};
 
-  async function runDemo(){
-    if (!DEMO) return;
+  async function runDemoNormal(){
     window.__harlowDemo.running = true;
     const t0 = performance.now();
-    // Door already opening
-    await wait(2600);
+    await wait(2200);
     await scrollTo(document.getElementById('search'), 950);
     await wait(500);
-    // Tap Hawthorn chip
     const haw = chips.querySelector('[data-suburb="Hawthorn"]');
     await tapEl(haw); haw.click();
     await wait(1100);
-    // Open first visible card
     const card = grid.querySelector('.card');
     await tapEl(card); card.click();
     await wait(1400);
-    // Day to dusk
     const sun = document.getElementById('sunToggle');
     await tapEl(sun); sun.click();
     await wait(1500);
-    // Rooms
-    const rooms = ['kitchen','bedroom','bathroom'];
-    for (const id of rooms){
-      const el = document.querySelector(`.plan .room[data-room="${id}"]`);
+    for (const id of ['kitchen','bedroom','bathroom']){
+      const el = document.querySelector(`#listingPlan .room[data-room="${id}"]`);
       await tapEl(el); el.dispatchEvent(new Event('click', {bubbles:true}));
       await wait(850);
     }
-    // Scroll to slots
     document.getElementById('slots').scrollIntoView({behavior:'smooth', block:'center'});
     await wait(800);
     const slot = document.querySelector('.slot[data-time="Sat 11:00"]');
@@ -500,13 +533,53 @@ footer .name{font-family:Cormorant,serif;font-size:18px;color:var(--charcoal);ma
     window.__harlowDemo.durationMs = Math.round(performance.now()-t0);
     window.__harlowDemo.running = false;
     console.log('DEMO_DONE', window.__harlowDemo.durationMs);
-    document.documentElement.setAttribute('data-demo-done', '1');
+    document.documentElement.setAttribute('data-demo-done','1');
   }
 
-  if (DEMO){
-    // Hold scroll during early door
-    document.documentElement.style.overflow='hidden';
-    setTimeout(()=>{ document.documentElement.style.overflow=''; runDemo(); }, 100);
+  async function runDemoFromPlan(){
+    window.__harlowDemo.running = true;
+    const t0 = performance.now();
+    showPlanMatch();
+    resetPlanMatch();
+    await wait(200);
+    await animatePlanRooms();
+    await wait(700);
+    // Cross into listing floor plan + booking
+    hidePlanMatch();
+    openListing('hawthorn');
+    await wait(900);
+    // Jump listing scroll to floor then rooms already shown — highlight again then book
+    document.getElementById('floor').scrollIntoView({behavior:'smooth', block:'center'});
+    await wait(700);
+    for (const id of ['kitchen','bedroom','bathroom']){
+      const el = document.querySelector(`#listingPlan .room[data-room="${id}"]`);
+      await tapEl(el); el.dispatchEvent(new Event('click', {bubbles:true}));
+      await wait(750);
+    }
+    document.getElementById('slots').scrollIntoView({behavior:'smooth', block:'center'});
+    await wait(700);
+    const slot = document.querySelector('.slot[data-time="Sat 11:00"]');
+    await tapEl(slot); slot.click();
+    await wait(1600);
+    window.__harlowDemo.durationMs = Math.round(performance.now()-t0);
+    window.__harlowDemo.running = false;
+    console.log('DEMO_DONE', window.__harlowDemo.durationMs);
+    document.documentElement.setAttribute('data-demo-done','1');
+  }
+
+  async function runPlanOnly(){
+    showPlanMatch();
+    resetPlanMatch();
+    await wait(100);
+    await animatePlanRooms();
+  }
+
+  if (START_PLAN && DEMO){
+    setTimeout(()=>{ runDemoFromPlan(); }, 80);
+  } else if (START_PLAN){
+    setTimeout(()=>{ runPlanOnly(); }, 80);
+  } else if (DEMO){
+    setTimeout(()=>{ runDemoNormal(); }, 100);
   }
 })();
 </script>
