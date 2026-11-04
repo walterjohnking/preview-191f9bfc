@@ -158,6 +158,14 @@ html.start-plan .plan-match{display:flex}
 html.start-plan .plan-phone .room,html.start-plan .plan-phone text,html.start-plan .plan-phone .outer{opacity:1 !important;transition:fill .45s ease, stroke .35s}
 html.demo .search{padding-top:156px}
 body.start-plan{overflow:hidden}
+html.start-plan .plan-phone.big{width:100vw;height:100vh;overflow:visible}
+html.start-plan .plan-phone.big .plan-match-shot{opacity:0}
+.plan-phone.settling{transition:width .9s cubic-bezier(.65,0,.35,1),height .9s cubic-bezier(.65,0,.35,1)}
+#matchSvg{transform-origin:0 0}
+#matchSvg.settling{transition:transform .9s cubic-bezier(.65,0,.35,1)}
+html.start-plan .plan-match{transition:background-color .9s}
+html.start-plan .plan-match.bigbg{background:var(--plan-white)}
+
 
 @media (prefers-reduced-motion: reduce){
   .listing,.confirm-card,.scroll-cue i{transition:none !important;animation:none !important}
@@ -228,6 +236,20 @@ body.start-plan{overflow:hidden}
   </div>
 </div>
 
+<script>(function(){
+if(!document.documentElement.classList.contains('start-plan'))return;
+/* Clip last-frame house box (720x1280): x41 y175 w615 h883 -> fractions of frame */
+var BX=41/720,BY=175/1280,BW=615/720,BH=883/1280,OX=29.1,OY=8,OW=141.8,OH=204;
+var pm=document.getElementById('planMatch'),ph=document.getElementById('planPhone'),sv=document.getElementById('matchSvg');
+pm.classList.add('bigbg');ph.classList.add('big','held');
+var r=sv.getBoundingClientRect(),vw=innerWidth,vh=innerHeight;
+var ux=r.width/200,uy=r.height/220;
+var sx=(BW*vw)/(OW*ux),sy=(BH*vh)/(OH*uy);
+var tx=BX*vw-(r.left+OX*ux*sx),ty=BY*vh-(r.top+OY*uy*sy);
+/* translate is relative to svg's own origin */
+sv.style.transform='translate('+tx+'px,'+ty+'px) scale('+sx+','+sy+')';
+window.__planBig={sx:sx,sy:sy,tx:tx,ty:ty};
+})();</script>
 <div class="listing" id="listing" aria-hidden="true">
   <div class="listing-hero" id="listingHero">
     <button class="close" id="closeListing" aria-label="Close">&times;</button>
@@ -482,6 +504,19 @@ body.start-plan{overflow:hidden}
     matchShot.querySelectorAll('img').forEach(i=>i.classList.remove('show'));
   }
 
+  async function settlePlan(){
+    if(!planPhone.classList.contains('big')) return;
+    await wait(1500);
+    document.documentElement.setAttribute('data-plan-settling','1');
+    const sv=document.getElementById('matchSvg');
+    planPhone.classList.add('settling'); sv.classList.add('settling');
+    planMatch.classList.remove('bigbg');
+    planPhone.classList.remove('big'); sv.style.transform='';
+    await wait(950);
+    planPhone.classList.remove('settling'); sv.classList.remove('settling');
+    document.documentElement.setAttribute('data-plan-settled','1');
+  }
+
   async function animatePlanRooms(){
     // Hold clean still ~1s as match target
     planPhone.classList.add('held');
@@ -548,6 +583,7 @@ body.start-plan{overflow:hidden}
     const t0 = performance.now();
     showPlanMatch();
     resetPlanMatch();
+    await settlePlan();
     await wait(200);
     await animatePlanRooms();
     await wait(700);
@@ -577,6 +613,7 @@ body.start-plan{overflow:hidden}
   async function runPlanOnly(){
     showPlanMatch();
     resetPlanMatch();
+    await settlePlan();
     await wait(100);
     await animatePlanRooms();
   }
