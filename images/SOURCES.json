@@ -81,6 +81,37 @@
     "download": "https://images.unsplash.com/photo-1760573776062-7d2a7baeb49d?w=2400&q=85&auto=format",
     "license": "Unsplash License",
     "people": false,
-    "note": "Real photo (not AI). Cropped to 16:10 for sheet. See CREDITS.md."
+    "note": "Poster cropped out of frame. See CREDITS.md."
+  },
+  "room-living-plan.webp": {
+    "photographer": "Spacejoy",
+    "unsplash_username": "spacejoy",
+    "unsplash_id": "9M66C_w_ToM",
+    "photo_id": "photo-1618221195710-dd6b41faaea6",
+    "url": "https://unsplash.com/photos/9M66C_w_ToM",
+    "download": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=2400&q=85&auto=format",
+    "license": "Unsplash License",
+    "people": false,
+    "note": "Warm-dusk grade of room-living.webp for sheet. See CREDITS.md."
+  },
+  "room-kitchen-plan.webp": {
+    "photographer": "Naomi H\u00e9bert",
+    "unsplash_username": "naomih",
+    "unsplash_id": "MP0bgaS_d1c",
+    "photo_id": "photo-1484154218962-a197022b5858",
+    "url": "https://unsplash.com/photos/MP0bgaS_d1c",
+    "download": "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=2400&q=85&auto=format",
+    "license": "Unsplash License",
+    "people": false,
+    "note": "Warm-dusk grade of room-kitchen.webp for sheet. See CREDITS.md."
+  },
+  "room-bath-plan.webp": {
+    "photographer": "Max Vakhtbovych",
+    "pexels_id": "7167081",
+    "url": "https://www.pexels.com/photo/interior-of-bathroom-with-sink-and-toilet-7167081/",
+    "download": "https://images.pexels.com/photos/7167081/pexels-photo-7167081.jpeg",
+    "license": "Pexels License",
+    "people": false,
+    "note": "Replaces mislabeled room-bathroom.webp (was a living room). See CREDITS.md."
   }
 }
