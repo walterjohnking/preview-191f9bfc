@@ -52,6 +52,10 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
   line-height:1.1;white-space:nowrap;
 }
 .ui-on .rlabel{opacity:1}
+/* Panel covers these rooms — keep labels hidden so they never ghost through cards */
+.ui-on #lbl-bedroom,
+.ui-on #lbl-hall,
+.ui-on #lbl-bath{opacity:0 !important}
 #lbl-living{left:210px;top:500px}
 #lbl-dining{left:210px;top:740px}
 #lbl-kitchen{left:680px;top:520px}
@@ -88,6 +92,35 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
 #stage.sheet-on .brand,#stage.picker-on .brand,#stage.confirm-on .brand{opacity:0;transition:opacity .35s ease}
 .brand span{opacity:.55}
 
+
+
+/* Opaque limestone plates under listing cards — outside #ui so cards stay solid while #ui fades */
+#card-solids{
+  position:absolute;left:80px;right:80px;top:1183px;height:175px;
+  display:flex;gap:14px;justify-content:center;z-index:3;pointer-events:none;
+  opacity:0; /* invisible at frame 0; jumps opaque when #stage.ui-on (after 400ms) */
+}
+.ui-on #card-solids{opacity:1}
+#stage.sheet-on #card-solids,
+#stage.picker-on #card-solids,
+#stage.confirm-on #card-solids{opacity:0}
+#card-solids .card-solid{
+  flex:1 1 440px;min-width:0;max-width:440px;height:100%;
+  background:#ECE7DF;border-radius:16px;
+  transition:
+    opacity .4s ease,
+    transform .4s ease,
+    flex-basis .4s ease,
+    flex-grow .4s ease,
+    max-width .4s ease,
+    margin .4s ease;
+  opacity:1;transform:none;
+}
+#card-solids .card-solid.is-out{
+  opacity:0;transform:translateY(14px);
+  flex-grow:0;flex-basis:0;max-width:0;margin:0;
+  overflow:hidden;
+}
 /* Listings panel — fewer cards/chips; entirely above y1480 */
 #panel{
   position:absolute;left:80px;right:80px;top:1040px;height:420px;
@@ -109,14 +142,36 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
 .chip.active{background:var(--limestone);color:var(--charcoal);border-color:var(--limestone)}
 .cards{display:flex;gap:14px;justify-content:center;min-height:120px;overflow:hidden;width:100%;max-width:920px;margin:0 auto;position:relative}
 .card{
-  flex:1 1 0;min-width:0;max-width:440px;
-  background:rgba(236,231,223,.98);color:var(--charcoal);
-  border-radius:16px;padding:18px 20px;
+  flex:1 1 440px;min-width:0;max-width:440px;
+  position:relative;color:var(--charcoal);
+  border-radius:16px;padding:0;
   border:1px solid rgba(176,141,87,.35);
+  background:#ECE7DF;
   opacity:1;transform:none;
-  transition:opacity .45s ease, transform .45s ease;
+  overflow:hidden;
+  transition:
+    opacity .4s ease,
+    transform .4s ease,
+    flex-basis .4s ease,
+    flex-grow .4s ease,
+    max-width .4s ease,
+    border-color .4s ease,
+    margin .4s ease;
 }
-.card.hide{opacity:0;transform:translateY(8px) scale(.98);pointer-events:none;max-width:0;min-width:0;flex:0 0 0;overflow:hidden;padding:0;border:0;margin:0}
+/* Solid limestone face — stays opaque relative to the card; parent #ui fade still composites, so labels under panel are hidden */
+.card-face{
+  background:#ECE7DF;color:var(--charcoal);
+  border-radius:15px;padding:18px 20px;
+  height:100%;box-sizing:border-box;
+  isolation:isolate;
+}
+.card.is-out{
+  opacity:0;
+  transform:translateY(14px);
+  flex-grow:0;flex-basis:0;max-width:0;
+  border-color:transparent;margin:0;
+  pointer-events:none;
+}
 .card .sub{font-size:24px;letter-spacing:.08em;text-transform:uppercase;color:var(--eucalyptus);font-weight:700;line-height:1.2}
 .card .title{font-family:"Playfair Display",serif;font-size:40px;margin:6px 0 8px;line-height:1.15}
 .card .price{font-size:40px;font-weight:700;margin-top:4px;line-height:1.2;color:var(--charcoal)}
@@ -222,7 +277,7 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
 @keyframes ripple{0%{opacity:.95;transform:translate(-50%,-50%) scale(.3)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.4)}}
 
 @media (prefers-reduced-motion: reduce){
-  #sheet,#ui,.rlabel,#picker,#confirm,.chip,.tick,.tick svg,#picker .card,#confirm .card{
+  #sheet,#ui,#panel,.rlabel,#picker,#confirm,.chip,.tick,.tick svg,#picker .card,#confirm .card,.card{
     transition:none !important;animation:none !important;
   }
 }
@@ -233,6 +288,25 @@ html.demo #sheet{
 html.demo #ui{transition:opacity 1.2s ease !important}
 html.demo .chip{
   transition:background .22s ease,border-color .22s ease,color .22s ease !important;
+}
+html.demo .card{
+  transition:
+    opacity .4s ease,
+    transform .4s ease,
+    flex-basis .4s ease,
+    flex-grow .4s ease,
+    max-width .4s ease,
+    border-color .4s ease,
+    margin .4s ease !important;
+}
+html.demo #card-solids .card-solid{
+  transition:
+    opacity .4s ease,
+    transform .4s ease,
+    flex-basis .4s ease,
+    flex-grow .4s ease,
+    max-width .4s ease,
+    margin .4s ease !important;
 }
 html.demo #picker{
   transition:opacity .35s ease-out !important;
@@ -273,6 +347,12 @@ html.demo #confirm.open .tick svg{
     <button class="hit" id="hit-bedroom" type="button" aria-label="Bedroom" data-room="bedroom"></button>
     <button class="hit" id="hit-hall" type="button" aria-label="Hall" data-room="hall"></button>
     <button class="hit" id="hit-bath" type="button" aria-label="Bath" data-room="bath"></button>
+
+  <!-- Opaque card plates under #ui -->
+  <div id="card-solids" aria-hidden="true">
+    <div class="card-solid" data-for="n1"></div>
+    <div class="card-solid" data-for="h1"></div>
+  </div>
 
     <div id="ui">
       <div class="brand">Harlow <span>&amp;</span> Vale</div>
@@ -354,22 +434,36 @@ html.demo #confirm.open .tick svg{
   const chipsEl = document.getElementById('chips');
   let filter = 'all';
 
-  function renderCards(animate){
-    const items = LISTINGS.filter(L => filter==='all' || L.filterKeys.indexOf(filter)>=0 || L.suburb===filter);
-    const html = items.map(L =>
-      '<article class="card" data-id="'+L.id+'">' +
+  function cardHTML(L){
+    return '<article class="card" data-id="'+L.id+'">' +
+      '<div class="card-face">' +
         '<div class="sub">'+L.suburb+' · '+L.beds+' bed</div>' +
         '<div class="title">'+L.title+'</div>' +
         '<div class="price">'+L.price+'</div>' +
-      '</article>'
-    ).join('');
-    if (!animate){ cardsEl.innerHTML = html; return; }
-    cardsEl.style.opacity = '0';
-    setTimeout(function(){
-      cardsEl.innerHTML = html;
-      cardsEl.style.transition = 'opacity .45s ease';
-      requestAnimationFrame(function(){ cardsEl.style.opacity = '1'; });
-    }, 180);
+      '</div>' +
+    '</article>';
+  }
+  function ensureCards(){
+    if (cardsEl.children.length) return;
+    cardsEl.innerHTML = LISTINGS.map(cardHTML).join('');
+  }
+  function renderCards(animate){
+    ensureCards();
+    LISTINGS.forEach(function(L){
+      const el = cardsEl.querySelector('[data-id="'+L.id+'"]');
+      const solid = document.querySelector('#card-solids .card-solid[data-for="'+L.id+'"]');
+      if (!el) return;
+      const show = filter==='all' || L.filterKeys.indexOf(filter)>=0 || L.suburb===filter;
+      if (!animate){
+        el.classList.toggle('is-out', !show);
+        if (solid) solid.classList.toggle('is-out', !show);
+        return;
+      }
+      void el.offsetWidth;
+      if (solid) void solid.offsetWidth;
+      el.classList.toggle('is-out', !show);
+      if (solid) solid.classList.toggle('is-out', !show);
+    });
   }
   renderCards(false);
 
