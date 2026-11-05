@@ -158,10 +158,12 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
   border-radius:22px;
   padding:22px 26px 26px;
   transform:translateY(40px);opacity:0;
-  transition:transform .35s ease-in-out, opacity .35s ease-in-out;
+  /* transform only — opacity stays 0 or 1 so card+text never ghost over the UI */
+  transition:transform .35s ease-in-out;
   pointer-events:none;
   box-shadow:0 18px 50px rgba(0,0,0,.4);
   overflow:hidden;
+  isolation:isolate;
 }
 #sheet.open{transform:translateY(0);opacity:1;pointer-events:auto}
 #sheet .grab{width:44px;height:5px;border-radius:3px;background:rgba(31,35,38,.18);margin:0 auto 14px}
@@ -310,7 +312,7 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
 }
 /* Demo reel keeps cinematic eases even if OS asks to reduce motion */
 html.demo #sheet{
-  transition:transform .35s ease-in-out, opacity .35s ease-in-out !important;
+  transition:transform .35s ease-in-out !important;
 }
 html.demo #ui{transition:opacity 1.2s ease !important}
 html.demo #card-solids{transition:opacity 1.2s ease !important}
@@ -484,16 +486,18 @@ html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !importa
   async function openSheetEased(key, waitUntil, t0, dur){
     if(!prepareRoom(key)) return;
     sheet.style.setProperty('transition', 'none', 'important');
-    sheet.style.opacity = '0';
+    // Opaque from frame 0 of the open — card bg + text are one solid layer
+    // (fading #sheet opacity makes cream wash out while dark text stays readable).
+    sheet.style.opacity = '1';
     sheet.style.transform = 'translateY(40px)';
     sheet.classList.add('open');
     sheet.setAttribute('aria-hidden','false');
     stage.classList.add('sheet-on');
-    var steps = 14; // denser steps so opacity never jumps
+    var steps = 14;
     for (var i = 1; i <= steps; i++){
       await waitUntil(t0 + dur * i / steps);
       var e = easeInOut(i / steps);
-      sheet.style.opacity = String(e);
+      sheet.style.opacity = '1';
       sheet.style.transform = 'translateY(' + (40 * (1 - e)).toFixed(2) + 'px)';
     }
     sheet.style.opacity = '1';
@@ -514,11 +518,13 @@ html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !importa
   async function closeSheetEased(waitUntil, t0, dur){
     sheet.setAttribute('aria-hidden','true');
     sheet.style.setProperty('transition', 'none', 'important');
+    sheet.style.opacity = '1';
     var steps = 14;
     for (var i = 1; i <= steps; i++){
       await waitUntil(t0 + dur * i / steps);
       var e = easeInOut(i / steps);
-      sheet.style.opacity = String(1 - e);
+      // Stay fully opaque while sliding out — same one-layer rule as open.
+      sheet.style.opacity = '1';
       sheet.style.transform = 'translateY(' + (40 * e).toFixed(2) + 'px)';
     }
     stage.classList.remove('sheet-on');
