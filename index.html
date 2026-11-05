@@ -87,7 +87,7 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
   pointer-events:none;line-height:1.1;
   text-shadow:0 2px 10px rgba(0,0,0,.55);
 }
-#stage.sheet-on .brand,
+/* Keep brand visible while room sheets are open — sheets sit below it */
 #stage.price-on .brand,
 #stage.picker-on .brand,
 #stage.confirm-on .brand{opacity:0;transition:opacity .35s ease}
@@ -95,7 +95,7 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
 
 /* Opaque limestone plates under listing cards — fade with #ui (no frame pop) */
 #card-solids{
-  position:absolute;left:80px;right:80px;top:1210px;height:150px;
+  position:absolute;left:80px;right:80px;top:1060px;height:150px;
   display:flex;gap:14px;justify-content:center;z-index:3;pointer-events:none;
   opacity:0;
   transition:opacity 1.2s ease, gap .4s ease;
@@ -112,11 +112,11 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
 
 /* Listings panel — no suburb chips; entirely above y1480 */
 #panel{
-  position:absolute;left:80px;right:80px;top:1080px;height:380px;
-  display:flex;flex-direction:column;gap:18px;justify-content:flex-end;
+  position:absolute;left:80px;right:80px;top:1060px;height:420px;
+  display:flex;flex-direction:column;gap:28px;justify-content:flex-start;
   pointer-events:none;
   transition:opacity .35s ease;
-  overflow:hidden;
+  overflow:visible;
   width:auto;max-width:920px;
 }
 #stage.price-on #panel,
@@ -143,7 +143,7 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
 .card .title{font-family:"Playfair Display",serif;font-size:40px;margin:8px 0 0;line-height:1.15}
 
 .book-btn{
-  align-self:center;margin-top:2px;
+  align-self:center;flex:0 0 auto;margin-top:8px;
   padding:20px 40px;border-radius:999px;
   background:var(--brass);color:var(--charcoal);
   font-size:40px;font-weight:700;letter-spacing:.03em;line-height:1.1;
@@ -152,19 +152,20 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
 
 /* Room sheet — 0.35s ease open/close */
 #sheet{
-  position:absolute;left:80px;width:920px;right:auto;top:500px;bottom:auto;z-index:20;
-  height:auto;max-height:960px;box-sizing:border-box;
+  position:absolute;left:80px;width:920px;right:auto;top:400px;bottom:auto;z-index:20;
+  height:600px;max-height:600px;box-sizing:border-box;
   background:var(--limestone);color:var(--charcoal);
   border-radius:22px;
   padding:22px 26px 26px;
-  transform:translateY(48px);opacity:0;
+  transform:translateY(40px);opacity:0;
   transition:transform .35s ease-in-out, opacity .35s ease-in-out;
   pointer-events:none;
   box-shadow:0 18px 50px rgba(0,0,0,.4);
+  overflow:hidden;
 }
 #sheet.open{transform:translateY(0);opacity:1;pointer-events:auto}
 #sheet .grab{width:44px;height:5px;border-radius:3px;background:rgba(31,35,38,.18);margin:0 auto 14px}
-#sheet .shot{position:relative;width:100%;aspect-ratio:16/10;border-radius:14px;overflow:hidden;background:#ddd;max-height:380px}
+#sheet .shot{position:relative;width:100%;aspect-ratio:16/10;border-radius:14px;overflow:hidden;background:#ddd;max-height:340px}
 #sheet .shot img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1) translate(0,0);transform-origin:55% 40%;will-change:transform}
 #sheet.open .shot img.drift{animation:photoDrift 1.8s linear forwards}
 @keyframes photoDrift{
@@ -224,20 +225,26 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
 
 /* Time picker */
 #picker{
-  position:absolute;inset:0;z-index:25;background:rgba(31,35,38,.55);
-  display:grid;place-items:center;align-content:center;opacity:0;pointer-events:none;
-  transition:opacity .35s ease-out;
+  position:absolute;inset:0;z-index:25;background:transparent;
+  display:grid;place-items:center;align-content:center;opacity:1;pointer-events:none;
   padding-bottom:420px;
 }
-#picker.open{opacity:1;pointer-events:auto}
+#picker.open{pointer-events:auto}
+#picker .scrim{
+  position:absolute;inset:0;background:rgba(31,35,38,.55);
+  opacity:0;transition:opacity .35s ease-out;pointer-events:none;
+}
+#picker.open .scrim{opacity:1}
 #picker .card{
-  width:min(720px,920px);background:var(--limestone);color:var(--charcoal);
+  position:relative;z-index:1;
+  width:min(720px,920px);background:#ECE7DF;color:var(--charcoal);
   border-radius:22px;padding:36px 30px 30px;text-align:center;
   max-width:920px;flex:0 0 auto;box-sizing:border-box;
-  transform:translateY(18px);
-  transition:transform .35s ease-out;
+  opacity:0;transform:translateY(18px);
+  transition:transform .35s ease-out, opacity .35s ease-out;
+  isolation:isolate;
 }
-#picker.open .card{transform:translateY(0)}
+#picker.open .card{opacity:1;transform:translateY(0)}
 #picker h3{font-size:48px;margin-bottom:10px;line-height:1.1}
 #picker p{color:#3f453f;font-size:30px;margin-bottom:22px;line-height:1.3}
 .slots{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
@@ -251,21 +258,27 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
 
 /* Confirm tick */
 #confirm{
-  position:absolute;inset:0;z-index:30;background:rgba(31,35,38,.55);
-  display:grid;place-items:center;opacity:0;pointer-events:none;
-  transition:opacity .35s ease-out;
+  position:absolute;inset:0;z-index:30;background:transparent;
+  display:grid;place-items:center;opacity:1;pointer-events:none;
   padding-bottom:360px;
 }
-#confirm.open{opacity:1;pointer-events:auto}
+#confirm.open{pointer-events:auto}
+#confirm .scrim{
+  position:absolute;inset:0;background:rgba(31,35,38,.55);
+  opacity:0;transition:opacity .35s ease-out;pointer-events:none;
+}
+#confirm.open .scrim{opacity:1}
 #confirm .card{
-  width:min(680px,920px);background:var(--limestone);color:var(--charcoal);
+  position:relative;z-index:1;
+  width:min(680px,920px);background:#ECE7DF;color:var(--charcoal);
   border-radius:22px;padding:40px 34px;text-align:center;
   border:1.5px solid rgba(176,141,87,.45);
   max-width:920px;box-sizing:border-box;
-  transform:translateY(14px);
-  transition:transform .35s ease-out;
+  opacity:0;transform:translateY(14px);
+  transition:transform .35s ease-out, opacity .35s ease-out;
+  isolation:isolate;
 }
-#confirm.open .card{transform:translateY(0)}
+#confirm.open .card{opacity:1;transform:translateY(0)}
 .tick{
   width:80px;height:80px;margin:0 auto 18px;border-radius:50%;
   border:3px solid var(--brass);display:grid;place-items:center;
@@ -303,10 +316,11 @@ html.demo #card-solids{transition:opacity 1.2s ease !important}
 html.demo #priceCard{
   transition:transform .35s ease-in-out, opacity .35s ease-in-out !important;
 }
-html.demo #picker{transition:opacity .35s ease-out !important}
-html.demo #picker .card{transition:transform .35s ease-out !important}
+html.demo #picker .scrim{transition:opacity .35s ease-out !important}
+html.demo #picker .card{transition:transform .35s ease-out, opacity .35s ease-out !important}
+html.demo #confirm .scrim{transition:opacity .35s ease-out !important}
+html.demo #confirm .card{transition:transform .35s ease-out, opacity .35s ease-out !important}
 html.demo #confirm{transition:opacity .35s ease-out !important}
-html.demo #confirm .card{transition:transform .35s ease-out !important}
 html.demo .tick{transition:transform .3s ease-out, opacity .3s ease-out !important}
 html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !important}
 </style>
@@ -366,6 +380,7 @@ html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !importa
     </div>
 
     <div id="picker" aria-hidden="true">
+      <div class="scrim" aria-hidden="true"></div>
       <div class="card">
         <h3 class="serif">Book inspection</h3>
         <p>Choose a time this Saturday</p>
@@ -377,6 +392,7 @@ html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !importa
     </div>
 
     <div id="confirm" aria-live="polite">
+      <div class="scrim" aria-hidden="true"></div>
       <div class="card">
         <div class="tick" aria-hidden="true">
           <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
@@ -467,7 +483,7 @@ html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !importa
     if(!prepareRoom(key)) return;
     sheet.style.setProperty('transition', 'none', 'important');
     sheet.style.opacity = '0';
-    sheet.style.transform = 'translateY(48px)';
+    sheet.style.transform = 'translateY(40px)';
     sheet.classList.add('open');
     sheet.setAttribute('aria-hidden','false');
     stage.classList.add('sheet-on');
@@ -476,7 +492,7 @@ html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !importa
       await waitUntil(t0 + dur * i / steps);
       var e = easeInOut(i / steps);
       sheet.style.opacity = String(e);
-      sheet.style.transform = 'translateY(' + (48 * (1 - e)).toFixed(2) + 'px)';
+      sheet.style.transform = 'translateY(' + (40 * (1 - e)).toFixed(2) + 'px)';
     }
     sheet.style.opacity = '1';
     sheet.style.transform = 'translateY(0px)';
@@ -496,13 +512,12 @@ html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !importa
   async function closeSheetEased(waitUntil, t0, dur){
     sheet.setAttribute('aria-hidden','true');
     sheet.style.setProperty('transition', 'none', 'important');
-    var y0 = -8; // matches end of sheet settle hold
     var steps = 14;
     for (var i = 1; i <= steps; i++){
       await waitUntil(t0 + dur * i / steps);
       var e = easeInOut(i / steps);
       sheet.style.opacity = String(1 - e);
-      sheet.style.transform = 'translateY(' + (y0 + (48 - y0) * e).toFixed(2) + 'px)';
+      sheet.style.transform = 'translateY(' + (40 * e).toFixed(2) + 'px)';
     }
     stage.classList.remove('sheet-on');
     document.querySelectorAll('.hit').forEach(function(h){ h.classList.remove('active'); });
@@ -587,9 +602,47 @@ html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !importa
   const picker = document.getElementById('picker');
   const confirm = document.getElementById('confirm');
   const confirmWhen = document.getElementById('confirmWhen');
-  document.getElementById('bookBtn').addEventListener('click', function(){
-    picker.classList.add('open'); picker.setAttribute('aria-hidden','false');
+  async function openPickerEased(waitUntil, t0, dur){
+    var panel = document.getElementById('panel');
+    var solids = document.getElementById('card-solids');
+    var card = picker.querySelector('.card');
+    var scrim = picker.querySelector('.scrim');
+    picker.setAttribute('aria-hidden','false');
+    picker.classList.add('open');
+    // Start from hidden card; CSS .open would fight us — drive opacity ourselves
+    if(card){
+      card.style.setProperty('transition','none','important');
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(18px)';
+    }
+    if(scrim){
+      scrim.style.setProperty('transition','none','important');
+      scrim.style.opacity = '0';
+    }
+    if(panel){ panel.style.setProperty('transition','none','important'); panel.style.opacity = panel.style.opacity || '1'; if(getComputedStyle(panel).opacity==='0'){} else { panel.style.opacity='1'; } }
+    if(solids){ solids.style.setProperty('transition','none','important'); solids.style.opacity='1'; }
+    var steps = 14;
+    for (var i = 1; i <= steps; i++){
+      if(waitUntil) await waitUntil(t0 + dur * i / steps);
+      else await sleep(dur * 1000 / steps);
+      var e = easeInOut(i / steps);
+      if(card){
+        card.style.opacity = String(e);
+        card.style.transform = 'translateY(' + (18 * (1 - e)).toFixed(2) + 'px)';
+      }
+      if(scrim) scrim.style.opacity = String(e);
+      if(panel) panel.style.opacity = String(1 - e);
+      if(solids) solids.style.opacity = String(1 - e);
+    }
     stage.classList.add('picker-on');
+    if(panel){ panel.style.opacity=''; panel.style.removeProperty('transition'); }
+    if(solids){ solids.style.opacity=''; solids.style.removeProperty('transition'); }
+    if(card){ card.style.opacity=''; card.style.transform=''; card.style.removeProperty('transition'); }
+    if(scrim){ scrim.style.opacity=''; scrim.style.removeProperty('transition'); }
+  }
+  document.getElementById('bookBtn').addEventListener('click', function(){
+    if(document.documentElement.classList.contains('demo')) return; // demo drives openPickerEased
+    openPickerEased(null, 0, 0.35);
   });
   document.getElementById('slots').addEventListener('click', function(e){
     const s = e.target.closest('.slot'); if(!s) return;
@@ -599,6 +652,7 @@ html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !importa
     stage.classList.remove('picker-on');
     confirm.classList.add('open');
     stage.classList.add('confirm-on');
+    // confirm .card/.scrim fade via CSS .open transitions
     const svg = confirm.querySelector('.tick svg');
     svg.style.animation = 'none';
     void svg.offsetWidth;
@@ -660,22 +714,21 @@ html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !importa
       // Open starts at tap; 0.35s continuous opacity ease (no end-of-ease pin jump)
       await openSheetEased(key, waitUntil, tapSec, 0.35);
       mark(key + '_open');
-      // Gentle photo + sheet settle across the 1.8s hold (JS-stepped for STEP clock)
+      // Photo drift only — sheet shell stays locked so it never creeps over the brand
       sheetImg.classList.remove('drift');
       sheetImg.style.transition = 'none';
       sheetImg.style.transformOrigin = '50% 40%';
-      sheet.style.transition = 'none';
+      sheet.style.transform = 'translateY(0px)';
       var hold0 = tapSec + 0.35;
       var holdDur = 1.8;
       var holdSteps = 54;
       for (var hi = 1; hi <= holdSteps; hi++){
         await waitUntil(hold0 + holdDur * hi / holdSteps);
         var p = hi / holdSteps;
-        var sc = 1 + 0.09 * p;
-        var tx = -36 * p;
-        var ty = -24 * p;
+        var sc = 1 + 0.11 * p;
+        var tx = -48 * p;
+        var ty = -32 * p;
         sheetImg.style.transform = 'translate(' + tx.toFixed(2) + 'px,' + ty.toFixed(2) + 'px) scale(' + sc.toFixed(4) + ')';
-        sheet.style.transform = 'translateY(' + (-8 * p).toFixed(2) + 'px)';
       }
       mark(key + '_close');
       await closeSheetEased(waitUntil, tapSec + 2.15, 0.35);
@@ -716,13 +769,14 @@ html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !importa
     const book = document.getElementById('bookBtn');
     tapEl(book);
     await sleep(100);
-    book.click();
-    mark('book_open');
+    mark('book_open'); // keep beat at ~14.9; ease runs from tap
+    // Opaque picker card + scrim fade together; listing cards ease out (no abrupt vanish)
+    await openPickerEased(waitUntil, 14.9, 0.35);
     var pickerCard = picker.querySelector('.card');
     if(pickerCard){
       pickerCard.classList.remove('drift');
       pickerCard.style.transition = 'none';
-      var k0 = 14.9, kDur = 1.6, kSteps = 48;
+      var k0 = 15.25, kDur = 1.25, kSteps = 38;
       for (var ki = 1; ki <= kSteps; ki++){
         await waitUntil(k0 + kDur * ki / kSteps);
         var kp = ki / kSteps;
@@ -732,12 +786,53 @@ html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !importa
       await waitUntil(16.5);
     }
     const slot = document.querySelector('.slot[data-time="Sat 10:30"]');
+    if(pickerCard){
+      pickerCard.style.transform = '';
+      pickerCard.style.removeProperty('transition');
+    }
     tapEl(slot);
     await sleep(100);
-    slot.click();
-    mark('slot_tick');
-    if(pickerCard){ pickerCard.style.transform = ''; }
+    // Manually crossfade picker → confirm as opaque layers (avoid CSS opacity snap under demo)
     var confirmCard = confirm.querySelector('.card');
+    var confirmScrim = confirm.querySelector('.scrim');
+    var pickerScrim = picker.querySelector('.scrim');
+    confirmWhen.textContent = slot.dataset.time;
+    document.querySelectorAll('.slot').forEach(function(x){ x.classList.toggle('active', x===slot); });
+    confirm.classList.add('open');
+    stage.classList.add('confirm-on');
+    stage.classList.remove('picker-on');
+    if(confirmCard){
+      confirmCard.style.setProperty('transition','none','important');
+      confirmCard.style.opacity='0';
+      confirmCard.style.transform='translateY(14px)';
+    }
+    if(confirmScrim){ confirmScrim.style.setProperty('transition','none','important'); confirmScrim.style.opacity='0'; }
+    if(pickerCard){ pickerCard.style.setProperty('transition','none','important'); }
+    if(pickerScrim){ pickerScrim.style.setProperty('transition','none','important'); }
+    mark('slot_tick');
+    var o0 = 16.6, oDur = 0.35, oSteps = 14;
+    for (var oi = 1; oi <= oSteps; oi++){
+      await waitUntil(o0 + oDur * oi / oSteps);
+      var oe = oi/oSteps;
+      oe = oe < 0.5 ? 2*oe*oe : 1 - Math.pow(-2*oe+2,2)/2;
+      if(pickerCard){
+        pickerCard.style.opacity = String(1-oe);
+        pickerCard.style.transform = 'translateY(' + (18*oe).toFixed(2) + 'px)';
+      }
+      if(pickerScrim) pickerScrim.style.opacity = String(1-oe);
+      if(confirmCard){
+        confirmCard.style.opacity = String(oe);
+        confirmCard.style.transform = 'translateY(' + (14*(1-oe)).toFixed(2) + 'px)';
+      }
+      if(confirmScrim) confirmScrim.style.opacity = String(oe);
+    }
+    picker.classList.remove('open'); picker.setAttribute('aria-hidden','true');
+    if(pickerCard){ pickerCard.style.opacity=''; pickerCard.style.transform=''; pickerCard.style.removeProperty('transition'); }
+    if(pickerScrim){ pickerScrim.style.opacity=''; pickerScrim.style.removeProperty('transition'); }
+    if(confirmCard){ confirmCard.style.opacity=''; confirmCard.style.transform=''; confirmCard.style.removeProperty('transition'); }
+    if(confirmScrim){ confirmScrim.style.opacity=''; confirmScrim.style.removeProperty('transition'); }
+    const svg = confirm.querySelector('.tick svg');
+    if(svg){ svg.style.animation='none'; void svg.offsetWidth; svg.style.animation=''; }
     await waitUntil(17.0);
     mark('tick_settled');
     if(confirmCard){
