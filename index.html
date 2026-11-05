@@ -169,16 +169,20 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
 }
 .slot.active{background:var(--charcoal);color:var(--limestone);border-color:var(--charcoal)}
 
-/* Confirm tick */
+/* Confirm tick — stays open through final CTA beat */
 #confirm{
   position:absolute;inset:0;z-index:30;background:rgba(31,35,38,.55);
   display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .3s;
-  padding-bottom:420px;
+  padding-bottom:280px;
 }
 #confirm.open{opacity:1;pointer-events:auto}
+#confirm .stack{
+  display:flex;flex-direction:column;align-items:center;gap:20px;
+  width:min(720px,90%);
+}
 #confirm .card{
-  width:min(640px,88%);background:var(--limestone);color:var(--charcoal);
-  border-radius:22px;padding:36px 32px;text-align:center;max-width:640px;
+  width:100%;background:var(--limestone);color:var(--charcoal);
+  border-radius:22px;padding:36px 32px;text-align:center;
 }
 .tick{
   width:72px;height:72px;margin:0 auto 16px;border-radius:50%;
@@ -191,26 +195,32 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
 #confirm p{color:#5c635a;font-size:28px}
 #confirm .when{margin-top:16px;padding:16px;border-radius:14px;background:#fff;font-weight:700;font-size:36px}
 
-/* CTA bar — text 64-72px; entire bar above y1500 */
+/* CTA — in-app limestone banner docked under confirm; bottom ≤ y1480 */
 #cta{
-  position:absolute;left:0;right:0;top:1280px;height:200px;bottom:auto;z-index:15;
-  background:var(--charcoal);color:#fff;
+  width:100%;
+  background:var(--limestone);color:var(--charcoal);
+  border:2.5px solid var(--brass);border-radius:22px;
   display:flex;align-items:center;justify-content:center;text-align:center;
-  padding:20px 32px;
-  transform:translateY(24px);opacity:0;
-  transition:transform .45s ease-out, opacity .35s ease-out;
+  padding:24px 28px;
+  transform:translateY(16px);opacity:0;max-height:0;overflow:hidden;
+  transition:transform .45s ease-out, opacity .35s ease-out, max-height .45s ease-out, padding .45s ease-out;
   pointer-events:none;
-  box-shadow:0 -16px 40px rgba(0,0,0,.35);
+  box-sizing:border-box;
 }
-#cta.show{transform:translateY(0);opacity:1;pointer-events:auto}
+#cta.show{
+  transform:translateY(0);opacity:1;pointer-events:auto;
+  max-height:240px;
+}
+#cta:not(.show){padding-top:0;padding-bottom:0;border-width:0}
 #cta .line{
   font-family:"Playfair Display",serif;font-weight:600;
   font-size:68px;line-height:1.15;letter-spacing:-0.01em;
-  max-width:1000px;
+  max-width:100%;
   display:flex;flex-direction:column;align-items:center;gap:0;
+  color:var(--charcoal);
 }
 #cta .line .l1,#cta .line .l2{
-  display:block;white-space:nowrap;font-size:68px;line-height:1.15;
+  display:block;white-space:nowrap;font-size:68px;line-height:1.15;color:var(--charcoal);
 }
 
 /* Tap ripple */
@@ -285,18 +295,19 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
     </div>
 
     <div id="confirm" aria-live="polite">
-      <div class="card">
-        <div class="tick" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+      <div class="stack">
+        <div class="card">
+          <div class="tick" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <h3 class="serif">Inspection booked</h3>
+          <p>See you at the property.</p>
+          <div class="when" id="confirmWhen">Sat 10:30</div>
         </div>
-        <h3 class="serif">Inspection booked</h3>
-        <p>See you at the property.</p>
-        <div class="when" id="confirmWhen">Sat 10:30</div>
+        <div id="cta" aria-hidden="true">
+          <div class="line"><span class="l1">Websites from $999</span><span class="l2">Comment HOME</span></div>
+        </div>
       </div>
-    </div>
-
-    <div id="cta" aria-hidden="true">
-      <div class="line"><span class="l1">Websites from $999</span><span class="l2">Comment HOME</span></div>
     </div>
 
     <div class="tap-ripple" id="ripple" aria-hidden="true"></div>
@@ -412,9 +423,10 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
 
   const cta = document.getElementById('cta');
   function showCta(){
+    // Keep booking confirmation (tick) on screen; CTA docks under it
+    if (!confirm.classList.contains('open')) confirm.classList.add('open');
     cta.classList.add('show');
     cta.setAttribute('aria-hidden','false');
-    confirm.classList.remove('open');
     picker.classList.remove('open');
     stage.classList.remove('picker-on');
     closeSheet();
