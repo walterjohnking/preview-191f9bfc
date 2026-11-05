@@ -288,7 +288,7 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
 }
 /* Demo reel keeps cinematic eases even if OS asks to reduce motion */
 html.demo #sheet{
-  transition:transform .42s ease-in-out, opacity .42s ease-in-out !important;
+  transition:transform .42s ease-in-out, opacity .42s ease-in-out;
 }
 html.demo #ui{transition:opacity 1.2s ease !important}
 html.demo .chip{
@@ -521,8 +521,8 @@ html.demo #confirm.open .tick svg{
     stage.classList.remove('sheet-on');
     document.querySelectorAll('.hit').forEach(function(h){ h.classList.remove('active'); });
     sheet.setAttribute('aria-hidden','true');
-    // Disable CSS transition so inline styles stick exactly
-    sheet.style.transition = 'none';
+    // Disable CSS transition so inline styles stick exactly (!important beats stylesheet)
+    sheet.style.setProperty('transition', 'none', 'important');
     var steps = 12; // 12 × 35ms ≈ 420ms → 12 intermediate states at ~30fps
     for (var i = 1; i <= steps; i++){
       await waitUntil(t0 + dur * i / steps);
@@ -530,10 +530,11 @@ html.demo #confirm.open .tick svg{
       sheet.style.opacity = String(1 - e);
       sheet.style.transform = 'translateY(' + (48 * e).toFixed(2) + 'px)';
     }
+    sheet.getAnimations().forEach(function(a){ try{ a.cancel(); }catch(e){} });
     sheet.classList.remove('open');
     sheet.style.opacity = '';
     sheet.style.transform = '';
-    sheet.style.transition = '';
+    sheet.style.removeProperty('transition');
   }
   document.querySelectorAll('.hit').forEach(function(h){
     h.addEventListener('click', function(){ openRoom(h.dataset.room); });
@@ -605,6 +606,12 @@ html.demo #confirm.open .tick svg{
     await sleep(120);
     openRoom('bedroom');
     mark('bedroom_open');
+    // Let the 420ms open ease finish, then pin fully-open styles for the hold (rec6 STEP-safe)
+    await waitUntil(1.75);
+    sheet.style.setProperty('transition', 'none', 'important');
+    sheet.style.opacity = '1';
+    sheet.style.transform = 'translateY(0px)';
+    sheet.getAnimations().forEach(function(a){ try{ a.cancel(); }catch(e){} });
     await waitUntil(4.0);
     mark('bedroom_close');
     // 420ms ease-in-out slide+fade; ends ~4.42s, gentle overlap with filter at 4.5s
