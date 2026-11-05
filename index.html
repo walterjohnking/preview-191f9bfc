@@ -235,6 +235,10 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
 @media (prefers-reduced-motion: reduce){
   #sheet,#cta,#ui,.rlabel,#picker,#confirm{transition:none !important;animation:none !important}
 }
+/* Demo reel keeps the sheet close fade/slide even if OS asks to reduce motion */
+html.demo #sheet{
+  transition:transform .35s ease-out, opacity .3s ease-out !important;
+}
 </style>
 </head>
 <body>
