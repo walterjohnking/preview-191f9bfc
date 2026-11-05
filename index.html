@@ -204,7 +204,8 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
 #priceCard h3{font-size:52px;line-height:1.15;margin:10px 0 8px}
 #priceCard .meta{font-size:30px;color:#3f453f;margin-bottom:18px}
 #priceCard .addr{
-  font-size:28px;color:#3f453f;margin-top:6px;letter-spacing:.02em;
+  font-size:26px;color:#3f453f;margin-top:6px;letter-spacing:.01em;
+  white-space:nowrap;
 }
 #priceCard .price{
   font-size:56px;font-weight:700;color:var(--charcoal);letter-spacing:-0.01em;line-height:1.1;
@@ -372,9 +373,9 @@ html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !importa
     <div id="priceCard" aria-hidden="true">
       <div class="price-inner" id="priceInner">
         <div class="sub" id="priceSuburb">Northcote</div>
-        <div class="addr" id="priceAddr">Northcote VIC</div>
+        <div class="addr" id="priceAddr">Mitchell Street, Northcote VIC</div>
         <h3 class="serif" id="priceTitle">Sunlit terrace</h3>
-        <div class="meta" id="priceMeta">3 bedroom</div>
+        <div class="meta" id="priceMeta">1 bedroom</div>
         <div class="price" id="priceValue">$1,450,000</div>
       </div>
     </div>
@@ -430,8 +431,8 @@ html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !importa
 
   /* Two listings — no prices on cards (price only on the price card) */
   const LISTINGS = [
-    { id:'n1', suburb:'Northcote', title:'Sunlit terrace', beds:3, price:'$1,450,000' },
-    { id:'h1', suburb:'Hawthorn',  title:'North-facing home', beds:3, price:'$2,200,000' }
+    { id:'n1', suburb:'Northcote', title:'Sunlit terrace', beds:1, price:'$1,450,000' },
+    { id:'h1', suburb:'Hawthorn',  title:'North-facing home', beds:1, price:'$2,200,000' }
   ];
   const FEATURED = LISTINGS[0];
 
@@ -448,6 +449,7 @@ html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !importa
 
   // Seed price card from featured listing
   document.getElementById('priceSuburb').textContent = FEATURED.suburb;
+  document.getElementById('priceAddr').textContent = 'Mitchell Street, Northcote VIC';
   document.getElementById('priceTitle').textContent = FEATURED.title;
   document.getElementById('priceMeta').textContent = FEATURED.beds + ' bedroom';
   document.getElementById('priceValue').textContent = FEATURED.price;
