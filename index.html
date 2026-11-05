@@ -101,10 +101,10 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
   transition:opacity 1.2s ease, gap .4s ease;
 }
 .ui-on #card-solids{opacity:1}
-#stage.sheet-on #card-solids,
 #stage.price-on #card-solids,
 #stage.picker-on #card-solids,
 #stage.confirm-on #card-solids{opacity:0;transition:opacity .35s ease}
+/* sheet-on: keep card solids + text visible so they never blank behind the sheet */
 #card-solids .card-solid{
   flex:1 1 440px;min-width:0;max-width:440px;height:100%;
   background:#ECE7DF;border-radius:16px;
@@ -119,10 +119,10 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
   overflow:hidden;
   width:auto;max-width:920px;
 }
-#stage.sheet-on #panel,
 #stage.price-on #panel,
 #stage.picker-on #panel,
 #stage.confirm-on #panel{opacity:0;pointer-events:none}
+/* sheet-on: panel text stays visible under the sheet */
 #panel .interactive{pointer-events:auto}
 .cards{display:flex;gap:14px;justify-content:center;min-height:120px;overflow:hidden;width:100%;max-width:920px;margin:0 auto;position:relative}
 .card{
@@ -165,7 +165,12 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
 #sheet.open{transform:translateY(0);opacity:1;pointer-events:auto}
 #sheet .grab{width:44px;height:5px;border-radius:3px;background:rgba(31,35,38,.18);margin:0 auto 14px}
 #sheet .shot{position:relative;width:100%;aspect-ratio:16/10;border-radius:14px;overflow:hidden;background:#ddd;max-height:380px}
-#sheet .shot img{width:100%;height:100%;object-fit:cover;display:block}
+#sheet .shot img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1) translate(0,0);transform-origin:55% 40%;will-change:transform}
+#sheet.open .shot img.drift{animation:photoDrift 1.8s linear forwards}
+@keyframes photoDrift{
+  from{transform:scale(1.0) translate(0,0)}
+  to{transform:scale(1.09) translate(-2.4%,-1.6%)}
+}
 #sheet .row{display:flex;align-items:baseline;justify-content:space-between;margin-top:18px;gap:12px}
 #sheet h3{font-size:48px;line-height:1.1}
 #sheet .size{font-size:40px;font-weight:700;color:var(--eucalyptus);letter-spacing:.03em}
@@ -197,8 +202,24 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
 }
 #priceCard h3{font-size:52px;line-height:1.15;margin:10px 0 8px}
 #priceCard .meta{font-size:30px;color:#3f453f;margin-bottom:18px}
+#priceCard .addr{
+  font-size:28px;color:#3f453f;margin-top:6px;letter-spacing:.02em;
+}
 #priceCard .price{
   font-size:56px;font-weight:700;color:var(--charcoal);letter-spacing:-0.01em;line-height:1.1;
+}
+#priceCard .price-inner{transform:translateY(0) scale(1);transform-origin:center center;will-change:transform}
+#priceCard.open .price-inner.settle{animation:priceSettle 1.8s linear forwards}
+@keyframes priceSettle{
+  from{transform:translateY(0) scale(1)}
+  to{transform:translateY(-12px) scale(1.028)}
+}
+/* note: linear applied via rule below */
+#picker.open .card.drift{animation:softDrift 1.7s linear forwards}
+#confirm.open .card.drift{animation:softDrift 2.0s linear forwards}
+@keyframes softDrift{
+  from{transform:translateY(0) scale(1)}
+  to{transform:translateY(-10px) scale(1.022)}
 }
 
 /* Time picker */
@@ -335,10 +356,13 @@ html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !importa
     </div>
 
     <div id="priceCard" aria-hidden="true">
-      <div class="sub" id="priceSuburb">Northcote</div>
-      <h3 class="serif" id="priceTitle">Sunlit terrace</h3>
-      <div class="meta" id="priceMeta">3 bedroom</div>
-      <div class="price" id="priceValue">$1,450,000</div>
+      <div class="price-inner" id="priceInner">
+        <div class="sub" id="priceSuburb">Northcote</div>
+        <div class="addr" id="priceAddr">Northcote VIC</div>
+        <h3 class="serif" id="priceTitle">Sunlit terrace</h3>
+        <div class="meta" id="priceMeta">3 bedroom</div>
+        <div class="price" id="priceValue">$1,450,000</div>
+      </div>
     </div>
 
     <div id="picker" aria-hidden="true">
@@ -418,18 +442,44 @@ html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !importa
   const sheetSize = document.getElementById('sheetSize');
   const priceCard = document.getElementById('priceCard');
 
-  function openRoom(key){
-    const R = ROOMS[key]; if(!R) return;
+  function prepareRoom(key){
+    const R = ROOMS[key]; if(!R) return null;
     document.querySelectorAll('.hit').forEach(function(h){ h.classList.toggle('active', h.dataset.room===key); });
+    sheetImg.classList.remove('drift');
+    sheetImg.style.animation = 'none';
+    void sheetImg.offsetWidth;
+    sheetImg.style.animation = '';
     sheetImg.src = R.img; sheetImg.alt = R.name;
     sheetName.textContent = R.name;
     sheetSize.textContent = R.size;
+    return R;
+  }
+  function openRoom(key){
+    if(!prepareRoom(key)) return;
     void sheet.offsetWidth;
     sheet.style.opacity = '';
     sheet.style.transform = '';
     sheet.classList.add('open');
     sheet.setAttribute('aria-hidden','false');
     stage.classList.add('sheet-on');
+  }
+  async function openSheetEased(key, waitUntil, t0, dur){
+    if(!prepareRoom(key)) return;
+    sheet.style.setProperty('transition', 'none', 'important');
+    sheet.style.opacity = '0';
+    sheet.style.transform = 'translateY(48px)';
+    sheet.classList.add('open');
+    sheet.setAttribute('aria-hidden','false');
+    stage.classList.add('sheet-on');
+    var steps = 14; // denser steps so opacity never jumps
+    for (var i = 1; i <= steps; i++){
+      await waitUntil(t0 + dur * i / steps);
+      var e = easeInOut(i / steps);
+      sheet.style.opacity = String(e);
+      sheet.style.transform = 'translateY(' + (48 * (1 - e)).toFixed(2) + 'px)';
+    }
+    sheet.style.opacity = '1';
+    sheet.style.transform = 'translateY(0px)';
   }
   function closeSheet(){
     void sheet.offsetWidth;
@@ -444,17 +494,18 @@ html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !importa
     return p < 0.5 ? 2*p*p : 1 - Math.pow(-2*p + 2, 2) / 2;
   }
   async function closeSheetEased(waitUntil, t0, dur){
-    stage.classList.remove('sheet-on');
-    document.querySelectorAll('.hit').forEach(function(h){ h.classList.remove('active'); });
     sheet.setAttribute('aria-hidden','true');
     sheet.style.setProperty('transition', 'none', 'important');
-    var steps = 11; // ~11 × 32ms ≈ 350ms
+    var y0 = -8; // matches end of sheet settle hold
+    var steps = 14;
     for (var i = 1; i <= steps; i++){
       await waitUntil(t0 + dur * i / steps);
       var e = easeInOut(i / steps);
       sheet.style.opacity = String(1 - e);
-      sheet.style.transform = 'translateY(' + (48 * e).toFixed(2) + 'px)';
+      sheet.style.transform = 'translateY(' + (y0 + (48 - y0) * e).toFixed(2) + 'px)';
     }
+    stage.classList.remove('sheet-on');
+    document.querySelectorAll('.hit').forEach(function(h){ h.classList.remove('active'); });
     sheet.getAnimations().forEach(function(a){ try{ a.cancel(); }catch(err){} });
     sheet.classList.remove('open');
     sheet.style.opacity = '';
@@ -462,16 +513,26 @@ html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !importa
     sheet.style.removeProperty('transition');
   }
   async function closePriceEased(waitUntil, t0, dur){
-    stage.classList.remove('price-on');
     priceCard.setAttribute('aria-hidden','true');
     priceCard.style.setProperty('transition', 'none', 'important');
-    var steps = 11;
+    var panel = document.getElementById('panel');
+    var solids = document.getElementById('card-solids');
+    if(panel){ panel.style.setProperty('transition','none','important'); panel.style.opacity='0'; }
+    if(solids){ solids.style.setProperty('transition','none','important'); solids.style.opacity='0'; }
+    var y0 = -10; // matches end of price settle hold
+    var steps = 14;
     for (var i = 1; i <= steps; i++){
       await waitUntil(t0 + dur * i / steps);
       var e = easeInOut(i / steps);
       priceCard.style.opacity = String(1 - e);
-      priceCard.style.transform = 'translateY(' + (28 * e).toFixed(2) + 'px)';
+      priceCard.style.transform = 'translateY(' + (y0 + (28 - y0) * e).toFixed(2) + 'px)';
+      // Bring listing cards back in as the price card leaves (no single-frame pop)
+      if(panel) panel.style.opacity = String(e);
+      if(solids) solids.style.opacity = String(e);
     }
+    stage.classList.remove('price-on');
+    if(panel){ panel.style.opacity=''; panel.style.removeProperty('transition'); }
+    if(solids){ solids.style.opacity=''; solids.style.removeProperty('transition'); }
     priceCard.getAnimations().forEach(function(a){ try{ a.cancel(); }catch(err){} });
     priceCard.classList.remove('open');
     priceCard.style.opacity = '';
@@ -479,12 +540,43 @@ html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !importa
     priceCard.style.removeProperty('transition');
   }
   function openPriceCard(){
+    var inner = document.getElementById('priceInner');
+    if(inner){ inner.classList.remove('settle'); inner.style.animation='none'; void inner.offsetWidth; inner.style.animation=''; }
     void priceCard.offsetWidth;
     priceCard.style.opacity = '';
     priceCard.style.transform = '';
     priceCard.classList.add('open');
     priceCard.setAttribute('aria-hidden','false');
     stage.classList.add('price-on');
+  }
+  async function openPriceEased(waitUntil, t0, dur){
+    // Open card chrome without snapping panel away; fade panel out with the card in
+    var inner = document.getElementById('priceInner');
+    if(inner){ inner.classList.remove('settle'); inner.style.animation='none'; void inner.offsetWidth; inner.style.animation=''; }
+    void priceCard.offsetWidth;
+    priceCard.classList.add('open');
+    priceCard.setAttribute('aria-hidden','false');
+    priceCard.style.setProperty('transition', 'none', 'important');
+    priceCard.style.opacity = '0';
+    priceCard.style.transform = 'translateY(28px)';
+    var panel = document.getElementById('panel');
+    var solids = document.getElementById('card-solids');
+    if(panel){ panel.style.setProperty('transition','none','important'); panel.style.opacity='1'; }
+    if(solids){ solids.style.setProperty('transition','none','important'); solids.style.opacity='1'; }
+    var steps = 14;
+    for (var i = 1; i <= steps; i++){
+      await waitUntil(t0 + dur * i / steps);
+      var e = easeInOut(i / steps);
+      priceCard.style.opacity = String(e);
+      priceCard.style.transform = 'translateY(' + (28 * (1 - e)).toFixed(2) + 'px)';
+      if(panel) panel.style.opacity = String(1 - e);
+      if(solids) solids.style.opacity = String(1 - e);
+    }
+    stage.classList.add('price-on');
+    if(panel){ panel.style.opacity=''; panel.style.removeProperty('transition'); }
+    if(solids){ solids.style.opacity=''; solids.style.removeProperty('transition'); }
+    priceCard.style.opacity = '1';
+    priceCard.style.transform = 'translateY(0px)';
   }
 
   document.querySelectorAll('.hit').forEach(function(h){
@@ -549,25 +641,46 @@ html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !importa
     document.getElementById('stage').classList.add('ui-on');
     await waitUntil(1.2);
     mark('ui_in');
+    // Soft listing-card breath so the 1.2→2.3s hold is not static (plan stays locked)
+    var panelEl = document.getElementById('panel');
+    if(panelEl){
+      panelEl.style.transition = 'none';
+      var b0 = 1.25, bDur = 1.0, bSteps = 30;
+      for (var bi = 1; bi <= bSteps; bi++){
+        await waitUntil(b0 + bDur * bi / bSteps);
+        var bp = bi / bSteps;
+        panelEl.style.transform = 'translateY(' + (-6*bp).toFixed(2) + 'px)';
+      }
+    }
 
     async function roomBeat(key, tapSec){
       const hit = document.getElementById('hit-' + (key === 'bath' ? 'bath' : key));
       await waitUntil(tapSec);
       tapEl(hit);
-      await sleep(90);
-      openRoom(key);
+      // Open starts at tap; 0.35s continuous opacity ease (no end-of-ease pin jump)
+      await openSheetEased(key, waitUntil, tapSec, 0.35);
       mark(key + '_open');
-      // Let 0.35s open ease finish, then pin fully-open for the hold
-      await waitUntil(tapSec + 0.35);
-      sheet.style.setProperty('transition', 'none', 'important');
-      sheet.style.opacity = '1';
-      sheet.style.transform = 'translateY(0px)';
-      sheet.getAnimations().forEach(function(a){ try{ a.cancel(); }catch(err){} });
-      // Hold 1.8s → close starts at tapSec + 2.15
-      await waitUntil(tapSec + 0.35 + 1.8);
+      // Gentle photo + sheet settle across the 1.8s hold (JS-stepped for STEP clock)
+      sheetImg.classList.remove('drift');
+      sheetImg.style.transition = 'none';
+      sheetImg.style.transformOrigin = '50% 40%';
+      sheet.style.transition = 'none';
+      var hold0 = tapSec + 0.35;
+      var holdDur = 1.8;
+      var holdSteps = 54;
+      for (var hi = 1; hi <= holdSteps; hi++){
+        await waitUntil(hold0 + holdDur * hi / holdSteps);
+        var p = hi / holdSteps;
+        var sc = 1 + 0.09 * p;
+        var tx = -36 * p;
+        var ty = -24 * p;
+        sheetImg.style.transform = 'translate(' + tx.toFixed(2) + 'px,' + ty.toFixed(2) + 'px) scale(' + sc.toFixed(4) + ')';
+        sheet.style.transform = 'translateY(' + (-8 * p).toFixed(2) + 'px)';
+      }
       mark(key + '_close');
       await closeSheetEased(waitUntil, tapSec + 2.15, 0.35);
-      // Beat ends at tapSec + 2.5
+      sheetImg.style.transform = '';
+      sheetImg.style.transformOrigin = '';
     }
 
     await roomBeat('living', 2.3);
@@ -577,16 +690,26 @@ html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !importa
 
     // Price card 12.3–14.8s (0.35 in, ~1.8 hold, 0.35 out)
     await waitUntil(12.3);
-    openPriceCard();
+    await openPriceEased(waitUntil, 12.3, 0.35);
     mark('price_in');
-    await waitUntil(12.65);
-    priceCard.style.setProperty('transition', 'none', 'important');
-    priceCard.style.opacity = '1';
-    priceCard.style.transform = 'translateY(0px)';
-    priceCard.getAnimations().forEach(function(a){ try{ a.cancel(); }catch(err){} });
-    await waitUntil(14.45);
+    var priceInner = document.getElementById('priceInner');
+    if(priceInner){
+      priceInner.classList.remove('settle');
+      priceInner.style.transition = 'none';
+      priceCard.style.transition = 'none';
+      var p0 = 12.65, pDur = 1.8, pSteps = 54;
+      for (var pi = 1; pi <= pSteps; pi++){
+        await waitUntil(p0 + pDur * pi / pSteps);
+        var pp = pi / pSteps;
+        priceInner.style.transform = 'translateY(' + (-14*pp).toFixed(2) + 'px) scale(' + (1+0.03*pp).toFixed(4) + ')';
+        priceCard.style.transform = 'translateY(' + (-10*pp).toFixed(2) + 'px)';
+      }
+    } else {
+      await waitUntil(14.45);
+    }
     mark('price_out');
     await closePriceEased(waitUntil, 14.45, 0.35);
+    if(priceInner) priceInner.style.transform = '';
 
     // Book inspection: tap 14.8, pick ~16.5, tick settled 17.0, hold to 19.0
     await waitUntil(14.8);
@@ -595,15 +718,40 @@ html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !importa
     await sleep(100);
     book.click();
     mark('book_open');
-    await waitUntil(16.5);
+    var pickerCard = picker.querySelector('.card');
+    if(pickerCard){
+      pickerCard.classList.remove('drift');
+      pickerCard.style.transition = 'none';
+      var k0 = 14.9, kDur = 1.6, kSteps = 48;
+      for (var ki = 1; ki <= kSteps; ki++){
+        await waitUntil(k0 + kDur * ki / kSteps);
+        var kp = ki / kSteps;
+        pickerCard.style.transform = 'translateY(' + (-22*kp).toFixed(2) + 'px) scale(' + (1+0.04*kp).toFixed(4) + ')';
+      }
+    } else {
+      await waitUntil(16.5);
+    }
     const slot = document.querySelector('.slot[data-time="Sat 10:30"]');
     tapEl(slot);
     await sleep(100);
     slot.click();
     mark('slot_tick');
+    if(pickerCard){ pickerCard.style.transform = ''; }
+    var confirmCard = confirm.querySelector('.card');
     await waitUntil(17.0);
     mark('tick_settled');
-    await waitUntil(19.0);
+    if(confirmCard){
+      confirmCard.classList.remove('drift');
+      confirmCard.style.transition = 'none';
+      var c0 = 17.0, cDur = 2.0, cSteps = 60;
+      for (var ci = 1; ci <= cSteps; ci++){
+        await waitUntil(c0 + cDur * ci / cSteps);
+        var cp = ci / cSteps;
+        confirmCard.style.transform = 'translateY(' + (-22*cp).toFixed(2) + 'px) scale(' + (1+0.04*cp).toFixed(4) + ')';
+      }
+    } else {
+      await waitUntil(19.0);
+    }
     mark('end');
     window.__demoDone = true;
   }
@@ -615,7 +763,7 @@ html.demo #confirm.open .tick svg{animation:draw .3s .05s ease forwards !importa
   }
 
   window.__HV = {
-    openRoom: openRoom, closeSheet: closeSheet,
+    openRoom: openRoom, closeSheet: closeSheet, openSheetEased: openSheetEased,
     planRect: { left:63, top:260, width:913, height:1319 },
     tapAt: tapAt
   };

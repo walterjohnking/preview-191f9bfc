@@ -4,11 +4,11 @@ Sheet photos for Harlow & Vale (free licences). All graded or cropped for the ro
 
 ## Living
 
-- **Photographer:** Spacejoy ([@spacejoy](https://unsplash.com/@spacejoy))
-- **Unsplash:** https://unsplash.com/photos/9M66C_w_ToM
-- **Image:** https://images.unsplash.com/photo-1618221195710-dd6b41faaea6
-- **Licence:** [Unsplash License](https://unsplash.com/license)
-- **Repo file:** `images/room-living-plan.webp` (warm-dusk grade of `room-living.webp`, cropped 16:10)
+- **Photographer:** Max Vakhtbovych ([@maxvakhtbovych](https://www.pexels.com/@maxvakhtbovych))
+- **Pexels:** https://www.pexels.com/photo/6969866/
+- **Image:** https://images.pexels.com/photos/6969866/pexels-photo-6969866.jpeg
+- **Licence:** [Pexels License](https://www.pexels.com/license/) — free to use commercially; attribution appreciated but not required
+- **Repo file:** `images/room-living-plan.webp` (warm-dusk grade, cropped 16:10). Replaces the previous Spacejoy Unsplash render (`9M66C_w_ToM` / `room-living.webp`).
 
 ## Kitchen
 
