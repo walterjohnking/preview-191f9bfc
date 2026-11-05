@@ -40,21 +40,24 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
 }
 #plan img{width:913px;height:1319px;object-fit:fill}
 
-/* Room labels — as large as fits, letter-spaced #B08D57 */
+/* Room labels — phone-legible 30px with backing pill, inside rooms */
 .rlabel{
   position:absolute;z-index:3;pointer-events:none;
-  font-family:Inter,sans-serif;font-size:18px;font-weight:600;
-  letter-spacing:0.14em;text-transform:uppercase;color:var(--brass);
-  text-shadow:0 2px 6px rgba(0,0,0,.65),0 0 1px rgba(0,0,0,.8);
-  opacity:0;transition:opacity .6s ease;
+  font-family:Inter,sans-serif;font-size:30px;font-weight:700;
+  letter-spacing:0.1em;text-transform:uppercase;color:#F5F1EA;
+  background:rgba(31,35,38,.78);
+  padding:8px 16px;border-radius:999px;
+  border:1px solid rgba(176,141,87,.55);
+  opacity:0;transition:opacity .7s ease;
+  line-height:1.1;white-space:nowrap;
 }
 .ui-on .rlabel{opacity:1}
-#lbl-living{left:230px;top:510px}
-#lbl-dining{left:230px;top:750px}
-#lbl-kitchen{left:700px;top:530px}
-#lbl-bedroom{left:200px;top:1180px}
-#lbl-hall{left:545px;top:1030px}
-#lbl-bath{left:780px;top:1320px}
+#lbl-living{left:210px;top:500px}
+#lbl-dining{left:210px;top:740px}
+#lbl-kitchen{left:680px;top:520px}
+#lbl-bedroom{left:180px;top:1170px}
+#lbl-hall{left:530px;top:1020px}
+#lbl-bath{left:760px;top:1310px}
 
 /* Invisible tap targets over rooms (stage coords) */
 .hit{
@@ -69,66 +72,68 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
 #hit-hall{left:520px;top:950px;width:210px;height:230px}
 #hit-bath{left:740px;top:1180px;width:215px;height:375px}
 
-/* UI layer — fades in; keep y<288 clear of text */
-#ui{position:absolute;inset:0;z-index:5;pointer-events:none;opacity:0;transition:opacity .9s ease}
+/* UI layer — soft fade ~1.2s; keep y<288 clear of text */
+#ui{position:absolute;inset:0;z-index:5;pointer-events:none;opacity:0;transition:opacity 1.2s ease}
 .ui-on #ui{opacity:1}
 #ui .interactive{pointer-events:auto}
 
-/* Brand — ≥36px, below caption-safe zone */
+/* Brand — below caption-safe zone */
 .brand{
   position:absolute;left:0;right:0;top:300px;text-align:center;
-  font-family:"Playfair Display",serif;font-size:40px;font-weight:600;
-  letter-spacing:0.05em;color:var(--limestone);opacity:.9;
+  font-family:"Playfair Display",serif;font-size:44px;font-weight:600;
+  letter-spacing:0.05em;color:var(--limestone);opacity:.95;
   pointer-events:none;line-height:1.1;
+  text-shadow:0 2px 10px rgba(0,0,0,.55);
 }
-#stage.sheet-on .brand,#stage.cta-on .brand,#stage.picker-on .brand{opacity:0;transition:opacity .3s}
+#stage.sheet-on .brand,#stage.picker-on .brand,#stage.confirm-on .brand{opacity:0;transition:opacity .35s ease}
 .brand span{opacity:.55}
 
-/* Listings panel — entirely above y1500 (bottom ≤1500) */
+/* Listings panel — fewer cards/chips; entirely above y1480 */
 #panel{
-  position:absolute;left:36px;right:36px;top:980px;height:500px;
-  display:flex;flex-direction:column;gap:14px;justify-content:flex-end;
+  position:absolute;left:48px;right:48px;top:1040px;height:420px;
+  display:flex;flex-direction:column;gap:16px;justify-content:flex-end;
   pointer-events:none;
-  transition:opacity .35s ease;
+  transition:opacity .4s ease;
 }
-#stage.cta-on #panel,#stage.sheet-on #panel,#stage.picker-on #panel{opacity:0;pointer-events:none}
+#stage.sheet-on #panel,#stage.picker-on #panel,#stage.confirm-on #panel{opacity:0;pointer-events:none}
 #panel .interactive{pointer-events:auto}
-.chips{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.chips{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
 .chip{
-  padding:14px 22px;border-radius:999px;
-  border:1px solid rgba(236,231,223,.32);background:rgba(31,35,38,.82);
-  font-size:36px;font-weight:600;color:var(--limestone);line-height:1.1;
-  transition:background .25s,border-color .25s,color .25s;
+  padding:16px 26px;border-radius:999px;
+  border:1.5px solid rgba(236,231,223,.55);background:rgba(31,35,38,.88);
+  font-size:40px;font-weight:700;color:#F5F1EA;line-height:1.1;
+  transition:background .3s ease,border-color .3s ease,color .3s ease;
 }
 .chip.active{background:var(--limestone);color:var(--charcoal);border-color:var(--limestone)}
-.cards{display:flex;gap:12px;justify-content:center;min-height:110px}
+.cards{display:flex;gap:14px;justify-content:center;min-height:120px}
 .card{
-  flex:1 1 0;min-width:0;max-width:320px;
-  background:rgba(236,231,223,.97);color:var(--charcoal);
-  border-radius:14px;padding:14px 16px;
+  flex:1 1 0;min-width:0;max-width:460px;
+  background:rgba(236,231,223,.98);color:var(--charcoal);
+  border-radius:16px;padding:18px 20px;
+  border:1px solid rgba(176,141,87,.35);
   opacity:1;transform:none;
-  transition:opacity .4s ease, transform .4s ease;
+  transition:opacity .45s ease, transform .45s ease;
 }
 .card.hide{opacity:0;transform:translateY(8px);pointer-events:none;position:absolute;width:0;height:0;overflow:hidden;padding:0;border:0}
-.card .sub{font-size:20px;letter-spacing:.08em;text-transform:uppercase;color:var(--eucalyptus);font-weight:700;line-height:1.2}
-.card .title{font-family:"Playfair Display",serif;font-size:36px;margin:4px 0 6px;line-height:1.15}
-.card .meta{font-size:18px;color:#5c635a}
-.card .price{font-size:36px;font-weight:700;margin-top:4px;line-height:1.2}
+.card .sub{font-size:24px;letter-spacing:.08em;text-transform:uppercase;color:var(--eucalyptus);font-weight:700;line-height:1.2}
+.card .title{font-family:"Playfair Display",serif;font-size:40px;margin:6px 0 8px;line-height:1.15}
+.card .price{font-size:40px;font-weight:700;margin-top:4px;line-height:1.2;color:var(--charcoal)}
 
 .book-btn{
   align-self:center;margin-top:2px;
-  padding:18px 36px;border-radius:999px;
+  padding:20px 40px;border-radius:999px;
   background:var(--brass);color:var(--charcoal);
-  font-size:36px;font-weight:700;letter-spacing:.03em;line-height:1.1;
+  font-size:40px;font-weight:700;letter-spacing:.03em;line-height:1.1;
+  box-shadow:0 8px 24px rgba(0,0,0,.35);
 }
 
-/* Room sheet — floating card, bottom edge ≤1500 */
+/* Room sheet — floating card, bottom edge ≤1480; keep fade from b8da8e2 */
 #sheet{
-  position:absolute;left:48px;right:48px;top:520px;bottom:auto;z-index:20;
+  position:absolute;left:48px;right:48px;top:500px;bottom:auto;z-index:20;
   height:auto;max-height:960px;
   background:var(--limestone);color:var(--charcoal);
   border-radius:22px;
-  padding:20px 24px 24px;
+  padding:22px 26px 26px;
   transform:translateY(28px);opacity:0;
   transition:transform .35s ease-out, opacity .3s ease-out;
   pointer-events:none;
@@ -138,90 +143,62 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
 #sheet .grab{width:44px;height:5px;border-radius:3px;background:rgba(31,35,38,.18);margin:0 auto 14px}
 #sheet .shot{width:100%;aspect-ratio:16/10;border-radius:14px;overflow:hidden;background:#ddd;max-height:380px}
 #sheet .shot img{width:100%;height:100%;object-fit:cover}
-#sheet .row{display:flex;align-items:baseline;justify-content:space-between;margin-top:16px;gap:12px}
-#sheet h3{font-size:44px;line-height:1.1}
-#sheet .size{font-size:36px;font-weight:700;color:var(--eucalyptus);letter-spacing:.03em}
+#sheet .row{display:flex;align-items:baseline;justify-content:space-between;margin-top:18px;gap:12px}
+#sheet h3{font-size:48px;line-height:1.1}
+#sheet .size{font-size:40px;font-weight:700;color:var(--eucalyptus);letter-spacing:.03em}
 #sheetClose{
-  position:absolute;top:16px;right:16px;width:48px;height:48px;border-radius:50%;
-  background:rgba(31,35,38,.1);color:var(--charcoal);font-size:28px;line-height:1;
+  position:absolute;top:16px;right:16px;width:52px;height:52px;border-radius:50%;
+  background:rgba(31,35,38,.12);color:var(--charcoal);font-size:30px;line-height:1;
   display:grid;place-items:center;
 }
 
-/* Time picker — card stays above y1500 */
+/* Time picker — card stays above y1480 */
 #picker{
   position:absolute;inset:0;z-index:25;background:rgba(31,35,38,.55);
-  display:grid;place-items:center;align-content:center;opacity:0;pointer-events:none;transition:opacity .3s;
-  padding-bottom:420px; /* bias card upward so bottom < 1500 */
+  display:grid;place-items:center;align-content:center;opacity:0;pointer-events:none;
+  transition:opacity .35s ease;
+  padding-bottom:420px;
 }
 #picker.open{opacity:1;pointer-events:auto}
 #picker .card{
   width:min(720px,90%);background:var(--limestone);color:var(--charcoal);
-  border-radius:22px;padding:32px 28px 28px;text-align:center;
+  border-radius:22px;padding:36px 30px 30px;text-align:center;
   max-width:720px;flex:0 0 auto;
 }
-#picker h3{font-size:44px;margin-bottom:8px;line-height:1.1}
-#picker p{color:#5c635a;font-size:28px;margin-bottom:20px;line-height:1.3}
-.slots{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+#picker h3{font-size:48px;margin-bottom:10px;line-height:1.1}
+#picker p{color:#3f453f;font-size:30px;margin-bottom:22px;line-height:1.3}
+.slots{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
 .slot{
-  padding:16px 22px;border-radius:14px;min-width:160px;
-  border:1px solid rgba(31,35,38,.14);background:#fff;
-  font-size:36px;font-weight:600;color:var(--charcoal);line-height:1.1;
+  padding:18px 26px;border-radius:14px;min-width:200px;
+  border:1.5px solid rgba(31,35,38,.18);background:#fff;
+  font-size:40px;font-weight:700;color:var(--charcoal);line-height:1.1;
+  transition:background .25s ease,color .25s ease,border-color .25s ease;
 }
 .slot.active{background:var(--charcoal);color:var(--limestone);border-color:var(--charcoal)}
 
-/* Confirm tick — stays open through final CTA beat */
+/* Confirm tick — final beat; no CTA */
 #confirm{
   position:absolute;inset:0;z-index:30;background:rgba(31,35,38,.55);
-  display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .3s;
-  padding-bottom:280px;
+  display:grid;place-items:center;opacity:0;pointer-events:none;
+  transition:opacity .4s ease;
+  padding-bottom:360px;
 }
 #confirm.open{opacity:1;pointer-events:auto}
-#confirm .stack{
-  display:flex;flex-direction:column;align-items:center;gap:20px;
-  width:min(720px,90%);
-}
 #confirm .card{
-  width:100%;background:var(--limestone);color:var(--charcoal);
-  border-radius:22px;padding:36px 32px;text-align:center;
+  width:min(680px,90%);background:var(--limestone);color:var(--charcoal);
+  border-radius:22px;padding:40px 34px;text-align:center;
+  border:1.5px solid rgba(176,141,87,.45);
 }
 .tick{
-  width:72px;height:72px;margin:0 auto 16px;border-radius:50%;
-  border:2.5px solid var(--brass);display:grid;place-items:center;
+  width:80px;height:80px;margin:0 auto 18px;border-radius:50%;
+  border:3px solid var(--brass);display:grid;place-items:center;
 }
-.tick svg{width:36px;height:36px;stroke:var(--brass);fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:40;stroke-dashoffset:40}
+.tick svg{width:40px;height:40px;stroke:var(--brass);fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:40;stroke-dashoffset:40}
 #confirm.open .tick svg{animation:draw .65s .1s ease forwards}
 @keyframes draw{to{stroke-dashoffset:0}}
-#confirm h3{font-size:44px;margin-bottom:8px;line-height:1.1}
-#confirm p{color:#5c635a;font-size:28px}
-#confirm .when{margin-top:16px;padding:16px;border-radius:14px;background:#fff;font-weight:700;font-size:36px}
-
-/* CTA — in-app limestone banner docked under confirm; bottom ≤ y1480 */
-#cta{
-  width:100%;
-  background:var(--limestone);color:var(--charcoal);
-  border:2.5px solid var(--brass);border-radius:22px;
-  display:flex;align-items:center;justify-content:center;text-align:center;
-  padding:24px 28px;
-  transform:translateY(16px);opacity:0;max-height:0;overflow:hidden;
-  transition:transform .45s ease-out, opacity .35s ease-out, max-height .45s ease-out, padding .45s ease-out;
-  pointer-events:none;
-  box-sizing:border-box;
-}
-#cta.show{
-  transform:translateY(0);opacity:1;pointer-events:auto;
-  max-height:240px;
-}
-#cta:not(.show){padding-top:0;padding-bottom:0;border-width:0}
-#cta .line{
-  font-family:"Playfair Display",serif;font-weight:600;
-  font-size:68px;line-height:1.15;letter-spacing:-0.01em;
-  max-width:100%;
-  display:flex;flex-direction:column;align-items:center;gap:0;
-  color:var(--charcoal);
-}
-#cta .line .l1,#cta .line .l2{
-  display:block;white-space:nowrap;font-size:68px;line-height:1.15;color:var(--charcoal);
-}
+#confirm h3{font-size:48px;margin-bottom:10px;line-height:1.1}
+#confirm p{color:#3f453f;font-size:30px}
+#confirm .when{margin-top:18px;padding:18px;border-radius:14px;background:#fff;font-weight:700;font-size:40px}
 
 /* Tap ripple */
 .tap-ripple{
@@ -233,12 +210,14 @@ h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;font-weight:600;let
 @keyframes ripple{0%{opacity:.95;transform:translate(-50%,-50%) scale(.3)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.4)}}
 
 @media (prefers-reduced-motion: reduce){
-  #sheet,#cta,#ui,.rlabel,#picker,#confirm{transition:none !important;animation:none !important}
+  #sheet,#ui,.rlabel,#picker,#confirm{transition:none !important;animation:none !important}
 }
 /* Demo reel keeps the sheet close fade/slide even if OS asks to reduce motion */
 html.demo #sheet{
   transition:transform .35s ease-out, opacity .3s ease-out !important;
 }
+html.demo #ui{transition:opacity 1.2s ease !important}
+html.demo #picker,html.demo #confirm{transition:opacity .4s ease !important}
 </style>
 </head>
 <body>
@@ -267,8 +246,6 @@ html.demo #sheet{
         <div class="chips interactive" id="chips" role="listbox" aria-label="Filters">
           <button class="chip active" data-filter="all" role="option" aria-selected="true">All</button>
           <button class="chip" data-filter="Northcote" role="option">Northcote</button>
-          <button class="chip" data-filter="Hawthorn" role="option">Hawthorn</button>
-          <button class="chip" data-filter="3bed" role="option">3 bed</button>
         </div>
         <div class="cards interactive" id="cards"></div>
         <button class="book-btn interactive" id="bookBtn" type="button">Book inspection</button>
@@ -290,27 +267,20 @@ html.demo #sheet{
         <h3 class="serif">Book inspection</h3>
         <p>Choose a time this Saturday</p>
         <div class="slots" id="slots">
-          <button class="slot" data-time="Sat 9:30" type="button">Sat 9:30</button>
           <button class="slot" data-time="Sat 10:30" type="button">Sat 10:30</button>
           <button class="slot" data-time="Sat 12:00" type="button">Sat 12:00</button>
-          <button class="slot" data-time="Sat 14:00" type="button">Sat 14:00</button>
         </div>
       </div>
     </div>
 
     <div id="confirm" aria-live="polite">
-      <div class="stack">
-        <div class="card">
-          <div class="tick" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
-          </div>
-          <h3 class="serif">Inspection booked</h3>
-          <p>See you at the property.</p>
-          <div class="when" id="confirmWhen">Sat 10:30</div>
+      <div class="card">
+        <div class="tick" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
         </div>
-        <div id="cta" aria-hidden="true">
-          <div class="line"><span class="l1">Websites from $999</span><span class="l2">Comment HOME</span></div>
-        </div>
+        <h3 class="serif">Inspection booked</h3>
+        <p>See you at the property.</p>
+        <div class="when" id="confirmWhen">Sat 10:30</div>
       </div>
     </div>
 
@@ -340,10 +310,10 @@ html.demo #sheet{
     bath:    { name:'Bath',    size:'6 m²',  img:'images/room-bath-plan.webp' }
   };
 
+  /* Two listings only — clearer on a phone */
   const LISTINGS = [
-    { id:'n1', suburb:'Northcote', title:'Sunlit terrace', beds:3, price:'$1,450,000 - $1,550,000', filterKeys:['Northcote','3bed'] },
-    { id:'h1', suburb:'Hawthorn',  title:'North-facing home', beds:3, price:'$2,200,000 - $2,400,000', filterKeys:['Hawthorn','3bed'] },
-    { id:'b1', suburb:'Brunswick', title:'Warehouse conversion', beds:2, price:'$1,150,000 - $1,250,000', filterKeys:[] }
+    { id:'n1', suburb:'Northcote', title:'Sunlit terrace', beds:3, price:'$1,450,000', filterKeys:['Northcote'] },
+    { id:'h1', suburb:'Hawthorn',  title:'North-facing home', beds:3, price:'$2,200,000', filterKeys:['Hawthorn'] }
   ];
 
   const cardsEl = document.getElementById('cards');
@@ -363,7 +333,7 @@ html.demo #sheet{
     cardsEl.style.opacity = '0';
     setTimeout(function(){
       cardsEl.innerHTML = html;
-      cardsEl.style.transition = 'opacity .4s ease';
+      cardsEl.style.transition = 'opacity .45s ease';
       requestAnimationFrame(function(){ cardsEl.style.opacity = '1'; });
     }, 180);
   }
@@ -418,24 +388,12 @@ html.demo #sheet{
     picker.classList.remove('open'); picker.setAttribute('aria-hidden','true');
     stage.classList.remove('picker-on');
     confirm.classList.add('open');
-    // retrigger tick anim
+    stage.classList.add('confirm-on');
     const svg = confirm.querySelector('.tick svg');
     svg.style.animation = 'none';
     void svg.offsetWidth;
     svg.style.animation = '';
   });
-
-  const cta = document.getElementById('cta');
-  function showCta(){
-    // Keep booking confirmation (tick) on screen; CTA docks under it
-    if (!confirm.classList.contains('open')) confirm.classList.add('open');
-    cta.classList.add('show');
-    cta.setAttribute('aria-hidden','false');
-    picker.classList.remove('open');
-    stage.classList.remove('picker-on');
-    closeSheet();
-    stage.classList.add('cta-on');
-  }
 
   /* Tap ripple in stage coordinates */
   const ripple = document.getElementById('ripple');
@@ -469,71 +427,56 @@ html.demo #sheet{
       if (ms > 0) await sleep(ms);
     };
 
-    // 0-1.5s: UI fades in around locked plan
+    // 0-1.2s: soft UI fade around locked plan
     mark('start');
     document.getElementById('stage').classList.add('ui-on');
-    await waitUntil(1.5);
+    await waitUntil(1.2);
     mark('ui_in');
 
-    // 1.5-4.5s: tap Bedroom, sheet opens
+    // Bedroom sheet — open ≥2.5s hold
     const bed = document.getElementById('hit-bedroom');
     tapEl(bed);
     await sleep(120);
     openRoom('bedroom');
     mark('bedroom_open');
-    await waitUntil(4.35);
+    await waitUntil(4.0);
     closeSheet();
     mark('bedroom_close');
-    await waitUntil(4.5);
+    await waitUntil(4.4);
 
-    // 4.5-7.5s: suburb filter chips, cards reflow
+    // Suburb filter — ≥2.5s hold (one clear filter)
     const chipN = chipsEl.querySelector('[data-filter="Northcote"]');
     tapEl(chipN);
     await sleep(100);
     chipN.click();
     mark('chip_northcote');
-    await waitUntil(5.7);
-    const chip3 = chipsEl.querySelector('[data-filter="3bed"]');
-    tapEl(chip3);
-    await sleep(100);
-    chip3.click();
-    mark('chip_3bed');
-    await waitUntil(7.5);
+    await waitUntil(7.0);
 
-    // 7.5-10s: Book, pick Sat 10:30, tick
+    // Book + tick — ≥2.5s including 1.5s settled hold on confirm
     const book = document.getElementById('bookBtn');
     tapEl(book);
     await sleep(100);
     book.click();
     mark('book_open');
-    await waitUntil(8.5);
+    await waitUntil(8.0);
     const slot = document.querySelector('.slot[data-time="Sat 10:30"]');
     tapEl(slot);
     await sleep(100);
     slot.click();
     mark('slot_tick');
-    await waitUntil(10.0);
-
-    // 10-11.5s: CTA bar
-    showCta();
-    mark('cta');
-    await waitUntil(11.5);
+    await waitUntil(9.7);
     mark('end');
     window.__demoDone = true;
   }
 
-  // Reveal UI for non-demo too (after first paint of plan)
   if (DEMO){
-    // Plan paints first; start demo immediately (UI fades 0-1.5s)
     requestAnimationFrame(function(){ runDemo(); });
   } else {
-    // Static browse: show UI after a beat so first frame can be clean plan
     setTimeout(function(){ document.getElementById('stage').classList.add('ui-on'); }, 400);
   }
 
-  // Expose helpers for Playwright checks
   window.__HV = {
-    openRoom: openRoom, closeSheet: closeSheet, showCta: showCta,
+    openRoom: openRoom, closeSheet: closeSheet,
     planRect: { left:63, top:260, width:913, height:1319 },
     tapAt: tapAt
   };
