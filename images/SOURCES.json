@@ -73,9 +73,14 @@
     "people": false
   },
   "room-bedroom-plan.webp": {
-    "source": "Generated photoreal bedroom via GenerateImage for plan match (bed, twin lamps, rug, warm dusk)",
-    "license": "CrownCraft generated asset for Harlow & Vale pitch",
+    "photographer": "Jazmin Wong",
+    "unsplash_username": "jazziwong",
+    "unsplash_id": "TFXCpP5V3Ds",
+    "photo_id": "photo-1760573776062-7d2a7baeb49d",
+    "url": "https://unsplash.com/photos/cozy-hotel-bedroom-with-a-large-bed-and-warm-lighting-TFXCpP5V3Ds",
+    "download": "https://images.unsplash.com/photo-1760573776062-7d2a7baeb49d?w=2400&q=85&auto=format",
+    "license": "Unsplash License",
     "people": false,
-    "note": "Replaces prior AI plan-crop bedroom that had melted pillows / blob lamps"
+    "note": "Real photo (not AI). Cropped to 16:10 for sheet. See CREDITS.md."
   }
 }
