@@ -71,5 +71,11 @@
     "license": "Unsplash License",
     "note": "Calm open living interior for static hero (no people)",
     "people": false
+  },
+  "room-bedroom-plan.webp": {
+    "source": "Generated photoreal bedroom via GenerateImage for plan match (bed, twin lamps, rug, warm dusk)",
+    "license": "CrownCraft generated asset for Harlow & Vale pitch",
+    "people": false,
+    "note": "Replaces prior AI plan-crop bedroom that had melted pillows / blob lamps"
   }
 }
