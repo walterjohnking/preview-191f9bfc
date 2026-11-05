@@ -38,12 +38,13 @@
     "people": false
   },
   "room-living.webp": {
-    "photographer": "Max Vakhtbovych",
-    "pexels_id": "6969866",
-    "url": "https://www.pexels.com/photo/6969866/",
-    "download": "https://images.pexels.com/photos/6969866/pexels-photo-6969866.jpeg",
+    "photographer": "Alex Tyson",
+    "pexels_username": "alex-tyson-919593032",
+    "pexels_id": "19966793",
+    "url": "https://www.pexels.com/photo/bright-interior-with-a-gray-sofa-and-a-wooden-coffee-table-19966793/",
+    "download": "https://images.pexels.com/photos/19966793/pexels-photo-19966793.jpeg",
     "license": "Pexels License",
-    "note": "Real photograph (EXIF Artist MAXArtbovich). Replaces Spacejoy Unsplash render 9M66C_w_ToM.",
+    "note": "Real home living room (grey sofa, wood coffee table, rug). Replaces Max Vakhtbovych 6969866.",
     "people": false
   },
   "room-kitchen.webp": {
@@ -89,7 +90,9 @@
   },
   "room-living-plan.webp": {
     "source": "room-living.webp",
-    "note": "Warm-dusk grade, 16:10 crop of Max Vakhtbovych Pexels 6969866",
+    "photographer": "Alex Tyson",
+    "pexels_id": "19966793",
+    "note": "Gentle warm grade, 16:10 crop of Alex Tyson Pexels 19966793 (balcony/logo cropped out)",
     "people": false
   },
   "room-kitchen-plan.webp": {

@@ -4,11 +4,11 @@ Sheet photos for Harlow & Vale (free licences). All graded or cropped for the ro
 
 ## Living
 
-- **Photographer:** Max Vakhtbovych ([@maxvakhtbovych](https://www.pexels.com/@maxvakhtbovych))
-- **Pexels:** https://www.pexels.com/photo/6969866/
-- **Image:** https://images.pexels.com/photos/6969866/pexels-photo-6969866.jpeg
+- **Photographer:** Alex Tyson ([@alex-tyson-919593032](https://www.pexels.com/@alex-tyson-919593032/))
+- **Pexels:** https://www.pexels.com/photo/bright-interior-with-a-gray-sofa-and-a-wooden-coffee-table-19966793/
+- **Image:** https://images.pexels.com/photos/19966793/pexels-photo-19966793.jpeg
 - **Licence:** [Pexels License](https://www.pexels.com/license/) — free to use commercially; attribution appreciated but not required
-- **Repo file:** `images/room-living-plan.webp` (warm-dusk grade, cropped 16:10). Replaces the previous Spacejoy Unsplash render (`9M66C_w_ToM` / `room-living.webp`).
+- **Repo file:** `images/room-living-plan.webp` (gentle warm grade, cropped 16:10). Replaces Max Vakhtbovych Pexels 6969866 (yellow-orange cast / showroom lettering).
 
 ## Kitchen
 
